@@ -10,39 +10,22 @@ public class User {
     @Id
     @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "userSeq")
-    private long user_id;
+    private long id;
     private String name;
     private String email;
     private String password;
+    private String imageUrl;
+    private String recoveryLink;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
     private List<Auction> createdAuction;
 
-
-
-
-
-    public User(String name, String email, String password, List<Auction> createdAuction) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.createdAuction = createdAuction;
+    public long getId() {
+        return id;
     }
 
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public User() {
-    }
-
-    public long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -69,11 +52,27 @@ public class User {
         this.password = password;
     }
 
-    public List<Auction> getAuctions() {
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getRecoveryLink() {
+        return recoveryLink;
+    }
+
+    public void setRecoveryLink(String recoveryLink) {
+        this.recoveryLink = recoveryLink;
+    }
+
+    public List<Auction> getCreatedAuction() {
         return createdAuction;
     }
 
-    public void setAuctions(List<Auction> createdAuction) {
+    public void setCreatedAuction(List<Auction> createdAuction) {
         this.createdAuction = createdAuction;
     }
 }

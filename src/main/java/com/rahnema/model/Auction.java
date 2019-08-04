@@ -1,7 +1,6 @@
 package com.rahnema.model;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class Auction {
@@ -9,44 +8,38 @@ public class Auction {
     @Id
     @SequenceGenerator(name = "auctionSeq", sequenceName = "AUCTION_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "auctionSeq")
-    private long auction_id;
+    private long id;
     private String title;
     private String description;
-    private long base_price;
-    private Date date;
-    private int visitor_limit;
-//    private String category;
+    private long basePrice;
+    private long soldPrice;
+    private long create_date;
+    private long dueDate;
+    private String imageUrl;
+    private int bookmarkedCount;
+    private int maxUsers;
+    private Category category;
+    private int activeUserCount;
+    private boolean started;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner")
     private User winner;
-    private long highest_price;
 
 
-    public User getWinner() {
-        return winner;
+    public boolean isStarted() {
+        return started;
     }
 
-    public void setWinner(User winner) {
-        this.winner = winner;
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 
-
-
-
-//    public String getCategory() {
-//        return category;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
-//    }
-
-    public long getAuction_id() {
-        return auction_id;
+    public long getId() {
+        return id;
     }
 
-    public void setAuction_id(long auction_id) {
-        this.auction_id = auction_id;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,35 +58,83 @@ public class Auction {
         this.description = description;
     }
 
-    public long getBase_price() {
-        return base_price;
+    public long getBasePrice() {
+        return basePrice;
     }
 
-    public void setBase_price(long base_price) {
-        this.base_price = base_price;
+    public void setBasePrice(long basePrice) {
+        this.basePrice = basePrice;
     }
 
-    public Date getDate() {
-        return date;
+    public long getSoldPrice() {
+        return soldPrice;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setSoldPrice(long soldPrice) {
+        this.soldPrice = soldPrice;
     }
 
-    public int getVisitor_limit() {
-        return visitor_limit;
+    public long getCreate_date() {
+        return create_date;
     }
 
-    public void setVisitor_limit(int visitor_limit) {
-        this.visitor_limit = visitor_limit;
+    public void setCreate_date(long create_date) {
+        this.create_date = create_date;
     }
 
-    public long getHighest_price() {
-        return highest_price;
+    public long getDueDate() {
+        return dueDate;
     }
 
-    public void setHighest_price(long highest_price) {
-        this.highest_price = highest_price;
+    public void setDueDate(long dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getBookmarkedCount() {
+        return bookmarkedCount;
+    }
+
+    public void setBookmarkedCount(int bookmarkedCount) {
+        this.bookmarkedCount = bookmarkedCount;
+    }
+
+    public int getMaxUsers() {
+        return maxUsers;
+    }
+
+    public void setMaxUsers(int maxUsers) {
+        this.maxUsers = maxUsers;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public int getActiveUserCount() {
+        return activeUserCount;
+    }
+
+    public void setActiveUserCount(int activeUserCount) {
+        this.activeUserCount = activeUserCount;
+    }
+
+    public User getWinner() {
+        return winner;
+    }
+
+    public void setWinner(User winner) {
+        this.winner = winner;
     }
 }

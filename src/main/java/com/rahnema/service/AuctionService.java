@@ -20,19 +20,13 @@ public class AuctionService {
     private UserService userService;
 
 
-    public List<Auction> getAllAuction(){
-        return (List<Auction>) auctionRepository.findAll();
-    }
-
-    public Optional<Auction> getOneAuction(long id){
+    public Optional<Auction> getAuction(long id){
         return auctionRepository.findById(id);
     }
 
     public void addAuction(Auction auction, long id){
         Optional<User> user =userService.getOneUser(id);
-//        auction.setDate(new Date());
-
-        user.get().getAuctions().add(auction);
+        user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
     }
 
