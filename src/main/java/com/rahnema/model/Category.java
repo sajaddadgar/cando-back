@@ -1,23 +1,17 @@
 package com.rahnema.model;
 
+import java.util.UUID;
 
-import com.rahnema.domain.CategoryDomain;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public enum Category {
+enum Category {
     DIGITAL_GOODS("کالای دیجیتال"),
-    SPORT("ورزشی"),
-    ALL("تمام کالاها");
+    SPORT("ورزشی");
 
 
-    private int id;
+    private UUID id;
     private String title;
 
     Category(final String title) {
-        this.id = title.hashCode();
+        this.id = UUID.randomUUID();
         this.title = title;
     }
 
@@ -25,18 +19,7 @@ public enum Category {
         return title;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
-
-    public List<CategoryDomain> getCategoryDomains() {
-        List<CategoryDomain> categoryDomains = new ArrayList<>();
-        Arrays.asList(Category.values()).forEach(category -> categoryDomains.add(new CategoryDomain(category)));
-        return categoryDomains;
-    }
-
-    public List<Category> getCategories() {
-        return Arrays.asList(Category.values());
-    }
 }
-
