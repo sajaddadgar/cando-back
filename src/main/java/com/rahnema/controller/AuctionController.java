@@ -33,6 +33,7 @@ public class AuctionController {
 
     @GetMapping("/category")
     public List getCategories(){
+        // change
         Category category = Category.DIGITAL_GOODS;
         return category.getCategories();
     }
