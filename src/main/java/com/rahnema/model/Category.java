@@ -1,8 +1,10 @@
 package com.rahnema.model;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
-enum Category {
+public enum Category {
     DIGITAL_GOODS("کالای دیجیتال"),
     SPORT("ورزشی");
 
@@ -22,4 +24,9 @@ enum Category {
     public UUID getId() {
         return id;
     }
+
+    public List<Category> getCategories() {
+        return Arrays.asList(Category.values());
+    }
 }
+
