@@ -13,7 +13,7 @@ public class Auction {
     private String description;
     private long basePrice;
     private long soldPrice;
-    private long create_date;
+    private long createDate;
     private long dueDate;
     private String imageUrl;
     private int bookmarkedCount;
@@ -74,12 +74,12 @@ public class Auction {
         this.soldPrice = soldPrice;
     }
 
-    public long getCreate_date() {
-        return create_date;
+    public long getCreateDate() {
+        return createDate;
     }
 
-    public void setCreate_date(long create_date) {
-        this.create_date = create_date;
+    public void setCreateDate(long createDate) {
+        this.createDate = createDate;
     }
 
     public long getDueDate() {

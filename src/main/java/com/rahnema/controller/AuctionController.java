@@ -1,12 +1,13 @@
 package com.rahnema.controller;
 
 import com.rahnema.model.Auction;
-import com.rahnema.model.Categories;
+import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,22 +18,29 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
-    @PostMapping("/add/{id}")
+    @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public String addAuction(@RequestBody Auction auction, @PathVariable long id){
         auctionService.addAuction(auction, id);
-        return "a auction added";
+        return "an auction added";
     }
 
 
-    @GetMapping("/getOne/{id}")
-    public Optional<Auction> getOneAuction(long id){
+    @GetMapping("/{id}")
+    public Optional<Auction> getOneAuction(@PathVariable long id){
         return auctionService.getAuction(id);
     }
 
     @GetMapping("/category")
     public List getCategories(){
-        Categories categories = new Categories();
-        return categories.getCategory();
+        Category category = Category.DIGITAL_GOODS;
+        return category.getCategories();
     }
+
+    @PutMapping("/winner/{auction_id}/{user_id}")
+    public String setWinner(@PathVariable long auction_id, @PathVariable long user_id){
+        auctionService.settWinner(auction_id, user_id);
+        return "a user with id: " + user_id + " won action with id: " + auction_id;
+    }
+
 }

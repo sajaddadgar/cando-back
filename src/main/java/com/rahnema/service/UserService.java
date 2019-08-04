@@ -19,24 +19,23 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getAllUser(){
-        return (List<User>) userRepository.findAll();
-    }
-
     public Optional<User> getOneUser(long id){
         return userRepository.findById(id);
     }
 
     public void update(User user, long id){
-        Optional<User> user1 = userRepository.findById(id);
-        if (user1.isPresent()){
-            user1.get().setName(user.getName());
-            user1.get().setEmail(user.getEmail());
-            user1.get().setPassword(user.getPassword());
-            user1.get().setImageUrl(user.getImageUrl());
-            user1.get().setCreatedAuction(user.getCreatedAuction());
-            user1.get().setRecoveryLink(user.getRecoveryLink());
+        // handle null value of updated user
+        Optional<User> dbUser = userRepository.findById(id);
+        if (dbUser.isPresent()){
+            dbUser.get().setName(user.getName());
+            dbUser.get().setEmail(user.getEmail());
+            dbUser.get().setPassword(user.getPassword());
+            dbUser.get().setImageUrl(user.getImageUrl());
+            dbUser.get().setCreatedAuction(user.getCreatedAuction());
+            dbUser.get().setRecoveryLink(user.getRecoveryLink());
         }
+
+        userRepository.save(dbUser.get());
     }
 
 
