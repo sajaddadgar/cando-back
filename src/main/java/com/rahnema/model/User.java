@@ -8,7 +8,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQ")
+    @SequenceGenerator(name = "userSeq", sequenceName = "USER_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "userSeq")
     private long user_id;
     private String name;
@@ -17,6 +17,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
     private List<Auction> createdAuction;
+
+
 
 
 

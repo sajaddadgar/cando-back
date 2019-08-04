@@ -7,7 +7,7 @@ import java.util.Date;
 public class Auction {
 
     @Id
-    @SequenceGenerator(name = "auctionSeq", sequenceName = "AUCTION_SEQ")
+    @SequenceGenerator(name = "auctionSeq", sequenceName = "AUCTION_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "auctionSeq")
     private long auction_id;
     private String title;
@@ -15,18 +15,31 @@ public class Auction {
     private long base_price;
     private Date date;
     private int visitor_limit;
-//    private User winner;
-//
-//    public User getWinner() {
-//        return winner;
-//    }
-//
-//    public void setWinner(User winner) {
-//        this.winner = winner;
-//    }
-
+//    private String category;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "winner")
+    private User winner;
     private long highest_price;
 
+
+    public User getWinner() {
+        return winner;
+    }
+
+    public void setWinner(User winner) {
+        this.winner = winner;
+    }
+
+
+
+
+//    public String getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(String category) {
+//        this.category = category;
+//    }
 
     public long getAuction_id() {
         return auction_id;

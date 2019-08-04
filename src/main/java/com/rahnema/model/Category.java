@@ -7,7 +7,7 @@ import java.util.List;
 public class Category {
 
     @Id
-    @SequenceGenerator(name = "categorySeq", sequenceName = "CATEGORY_SEQ")
+    @SequenceGenerator(name = "categorySeq", sequenceName = "CATEGORY_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "categorySeq")
     private long category_id;
     private String name;
