@@ -1,7 +1,7 @@
 package com.rahnema.controller;
 
 import com.rahnema.model.Auction;
-import com.rahnema.model.Categories;
+import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,8 @@ public class AuctionController {
 
     @GetMapping("/category")
     public List getCategories(){
-        Categories categories = new Categories();
-        return categories.getCategory();
+        Category category = Category.DIGITAL_GOODS;
+        return category.getCategories();
+
     }
 }
