@@ -36,6 +36,8 @@ public class AuctionController {
         // change
         Category category = Category.DIGITAL_GOODS;
         return category.getCategories();
+
+
     }
 
     @PutMapping("/winner/{auction_id}/{user_id}")
