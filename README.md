@@ -66,7 +66,7 @@ body of this request must contain these props:
 
 In order to get an auction details, do `GET` on this url:
 
-`/auction/{auctionId}`
+`/auction/info/{auctionId}`
 
 `{auctionId}` is the id of the auction.
 
