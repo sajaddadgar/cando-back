@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,9 +21,19 @@ public class AuctionController {
 
     @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addAuction(@RequestBody AuctionDomain auction, @PathVariable long id) {
-        auctionService.addAuction(auction, id);
-        return "an auction added";
+    public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain, @PathVariable long id) {
+        if (isValid(auctionDomain)) {
+            Auction auction = auctionService.addAuction(auctionDomain, id);
+            return new AuctionDomain(auction);
+        } else throw new IllegalArgumentException("Arguments are not valid!");
+    }
+
+    private boolean isValid(AuctionDomain auctionDomain) {
+        return !auctionDomain.getTitle().isEmpty() &&
+                auctionDomain.getBasePrice() > 0 &&
+                new Date().getTime() < auctionDomain.getDueDate() &&
+                Category.ALL.getCategories().stream().anyMatch(category -> auctionDomain.getCategoryId().equals(category.getId())) &&
+                auctionDomain.getMaxUsers() >= 0;
     }
 
 

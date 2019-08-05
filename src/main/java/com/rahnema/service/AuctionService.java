@@ -23,11 +23,12 @@ public class AuctionService {
         return auctionRepository.findById(id);
     }
 
-    public void addAuction(AuctionDomain auctionDomain, long id) {
+    public Auction addAuction(AuctionDomain auctionDomain, long id) {
         Auction auction = new Auction(auctionDomain);
         Optional<User> user =userService.getOneUser(id);
         user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
+        return auction;
     }
 
     public void settWinner(long auction_id, long user_id){
