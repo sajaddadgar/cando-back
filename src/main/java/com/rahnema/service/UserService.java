@@ -34,12 +34,13 @@ public class UserService {
     public void update(User user, long id){
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isPresent()){
-            dbUser.get().setName(user.getName());
-            dbUser.get().setEmail(user.getEmail());
-            dbUser.get().setPassword(user.getPassword());
-            dbUser.get().setImageUrl(user.getImageUrl());
-            dbUser.get().setCreatedAuction(user.getCreatedAuction());
-            dbUser.get().setRecoveryLink(user.getRecoveryLink());
+            User preUser = dbUser.get();
+            preUser.setName(!user.getName().isEmpty() ? user.getName() : preUser.getName());
+            preUser.setEmail(!user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
+            preUser.setPassword(!user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
+            preUser.setImageUrl(!user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
+            preUser.setCreatedAuction(!user.getCreatedAuction().isEmpty() ? user.getCreatedAuction() : preUser.getCreatedAuction());
+            preUser.setRecoveryLink(!user.getRecoveryLink().isEmpty() ? user.getRecoveryLink() : preUser.getRecoveryLink());
         }
 
         userRepository.save(dbUser.get());

@@ -23,10 +23,10 @@ public class User {
     private List<Auction> createdAuction;
 
     public User(UserDomain userDomain) {
-        this.name = userDomain.getName();
-        this.email = userDomain.getEmail();
-        this.password = userDomain.getPassword();
-        this.imageUrl = userDomain.getImageUrl();
+        this.name = userDomain.getName() != null ? userDomain.getName() : "";
+        this.email = userDomain.getEmail() != null ? userDomain.getEmail() : "";
+        this.password = userDomain.getPassword() != null ? userDomain.getPassword() : "";
+        this.imageUrl = userDomain.getImageUrl() != null ? userDomain.getImageUrl() : "";
         this.recoveryLink = "";
         this.createdAuction = null;
     }
