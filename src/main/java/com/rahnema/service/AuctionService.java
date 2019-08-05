@@ -23,6 +23,7 @@ public class AuctionService {
         return auctionRepository.findById(id);
     }
 
+    //
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
         Auction auction = new Auction(auctionDomain);
         System.out.println(auction);
