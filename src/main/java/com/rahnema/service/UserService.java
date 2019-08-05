@@ -5,6 +5,8 @@ import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,13 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private JavaMailSender javaMailSender;
+
+    @Autowired
+    public UserService(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
 
     public User addUser(UserDomain userDomain) {
         User user = new User(userDomain);
@@ -54,6 +63,15 @@ public class UserService {
     public List<Auction> getMyAuctions(long id){
         Optional<User> user = userRepository.findById(id);
         return user.get().getCreatedAuction();
+    }
+
+
+    public void recoverPassword() {
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo("sajad.dadgar98@gmail.com");
+        mail.setSubject("ssss");
+        mail.setText("aaaa");
+        javaMailSender.send(mail);
     }
 
 }

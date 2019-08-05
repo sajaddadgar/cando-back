@@ -56,4 +56,10 @@ public class UserController {
         return userService.getMyAuctions(id);
     }
 
+
+    @PostMapping("/recover")
+    public boolean recoverPassword() {
+        userService.recoverPassword();
+        return true;
+    }
 }

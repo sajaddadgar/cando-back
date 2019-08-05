@@ -1,6 +1,7 @@
 package com.rahnema.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahnema.domain.UserDomain;
 
 import javax.persistence.*;
@@ -21,6 +22,13 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
     private List<Auction> createdAuction;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "BOOKMARK",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "auction_id")})
+    @JsonIgnore
+    private List<Auction> bookmarkAuction;
+
 
     public User(UserDomain userDomain) {
         this.name = userDomain.getName() != null ? userDomain.getName() : "";
@@ -32,6 +40,15 @@ public class User {
     }
 
     public User() {
+    }
+
+
+    public List<Auction> getBookmarkAuction() {
+        return bookmarkAuction;
+    }
+
+    public void setBookmarkAuction(List<Auction> bookmarkAuction) {
+        this.bookmarkAuction = bookmarkAuction;
     }
 
     public long getId() {

@@ -1,10 +1,12 @@
 package com.rahnema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -29,6 +31,9 @@ public class Auction {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")
     private User winner;
+    @ManyToMany(mappedBy = "bookmarkAuction")
+    @JsonIgnore
+    private List<User> bookmarkUser;
 
     public Auction(AuctionDomain auctionDomain) {
         this.title = auctionDomain.getTitle();
@@ -60,6 +65,14 @@ public class Auction {
     }
 
     public Auction() {
+    }
+
+    public List<User> getBookmarkUser() {
+        return bookmarkUser;
+    }
+
+    public void setBookmarkUser(List<User> bookmarkUser) {
+        this.bookmarkUser = bookmarkUser;
     }
 
     public boolean isStarted() {
