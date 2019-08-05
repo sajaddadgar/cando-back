@@ -1,6 +1,10 @@
 package com.rahnema.model;
 
+import com.rahnema.domain.AuctionDomain;
+
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Optional;
 
 @Entity
 public class Auction {
@@ -25,6 +29,23 @@ public class Auction {
     @JoinColumn(name = "winner")
     private User winner;
 
+    public Auction(AuctionDomain auctionDomain) {
+        this.title = auctionDomain.getTitle();
+        this.basePrice = auctionDomain.getBasePrice();
+        this.description = auctionDomain.getDescription();
+        this.activeUserCount = 0;
+        this.createDate = new Date().getTime();
+        this.imageUrl = auctionDomain.getImageUrl();
+        this.soldPrice = -1;
+        this.bookmarkedCount = 0;
+        Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
+                .filter(category1 -> category1.getId().equals(auctionDomain.getCategoryId())).findFirst();
+        this.category = first.orElse(Category.ALL);
+        this.started = false;
+        this.dueDate = auctionDomain.getDueDate();
+        this.maxUsers = auctionDomain.getMaxUsers();
+        this.winner = null;
+    }
 
     public boolean isStarted() {
         return started;

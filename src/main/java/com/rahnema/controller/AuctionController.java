@@ -1,5 +1,6 @@
 package com.rahnema.controller;
 
+import com.rahnema.domain.AuctionDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public class AuctionController {
 
     @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addAuction(@RequestBody Auction auction, @PathVariable long id){
+    public String addAuction(@RequestBody AuctionDomain auction, @PathVariable long id) {
         auctionService.addAuction(auction, id);
         return "an auction added";
     }

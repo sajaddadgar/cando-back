@@ -1,13 +1,15 @@
 package com.rahnema.model;
 
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public enum Category {
     DIGITAL_GOODS("کالای دیجیتال"),
-    SPORT("ورزشی");
+    SPORT("ورزشی"),
+    ALL("تمام کالاها");
+
 
 
     private UUID id;
@@ -26,12 +28,8 @@ public enum Category {
         return id;
     }
 
-    public List<String> getCategories() {
-        List<String> persian = new ArrayList<>();
-        persian.add(Category.SPORT.getTitle());
-        persian.add(Category.DIGITAL_GOODS.getTitle());
-        return persian;
-//        return Arrays.asList(Category.values());
+    public List<Category> getCategories() {
+        return Arrays.asList(Category.values());
     }
 }
 

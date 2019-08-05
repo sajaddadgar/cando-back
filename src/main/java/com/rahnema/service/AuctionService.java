@@ -1,5 +1,6 @@
 package com.rahnema.service;
 
+import com.rahnema.domain.AuctionDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.AuctionRepository;
@@ -22,7 +23,8 @@ public class AuctionService {
         return auctionRepository.findById(id);
     }
 
-    public void addAuction(Auction auction, long id){
+    public void addAuction(AuctionDomain auctionDomain, long id) {
+        Auction auction = new Auction(auctionDomain);
         Optional<User> user =userService.getOneUser(id);
         user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
