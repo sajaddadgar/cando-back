@@ -1,6 +1,7 @@
 package com.rahnema.controller;
 
 import com.rahnema.domain.AuctionDomain;
+import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.domain.CategoryDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
@@ -37,10 +38,18 @@ public class AuctionController {
                 auctionDomain.getMaxUsers() >= 0;
     }
 
+    @GetMapping("/info/{id}")
+    public AuctionInfoDomain getAuctionInfo(@PathVariable long id) {
+
+        return auctionService.getAuctionInfo(id);
+
+    }
 
     @GetMapping("/{id}")
     public Optional<Auction> getOneAuction(@PathVariable long id){
+
         return auctionService.getAuction(id);
+
     }
 
     @GetMapping("/categories")
@@ -53,5 +62,6 @@ public class AuctionController {
         auctionService.settWinner(auction_id, user_id);
         return "a user with id: " + user_id + " won action with id: " + auction_id;
     }
+
 
 }

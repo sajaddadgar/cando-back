@@ -1,6 +1,7 @@
 package com.rahnema.service;
 
 import com.rahnema.domain.AuctionDomain;
+import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.AuctionRepository;
@@ -23,6 +24,12 @@ public class AuctionService {
         return auctionRepository.findById(id);
     }
 
+    public AuctionInfoDomain getAuctionInfo(long id) {
+        Optional<Auction> auction = auctionRepository.findById(id);
+        AuctionInfoDomain auctionInfoDomain = new AuctionInfoDomain(auction.get());
+        return auctionInfoDomain;
+    }
+
 
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
         Auction auction = new Auction(auctionDomain);
@@ -39,5 +46,6 @@ public class AuctionService {
         auction.setWinner(user);
         userService.addUser(user);
     }
+
 
 }
