@@ -33,7 +33,7 @@ public class AuctionController {
         return !auctionDomain.getTitle().isEmpty() &&
                 auctionDomain.getBasePrice() > 0 &&
                 new Date().getTime() < auctionDomain.getDueDate() &&
-                Category.ALL.getCategories().stream().anyMatch(category -> auctionDomain.getCategoryId().equals(category.getId())) &&
+                Category.ALL.getCategories().stream().anyMatch(category -> auctionDomain.getCategoryId() == category.getId()) &&
                 auctionDomain.getMaxUsers() >= 0;
     }
 

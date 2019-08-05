@@ -39,7 +39,7 @@ public class Auction {
         this.soldPrice = -1;
         this.bookmarkedCount = 0;
         Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
-                .filter(category1 -> category1.getId().equals(auctionDomain.getCategoryId())).findFirst();
+                .filter(category1 -> category1.getId() == auctionDomain.getCategoryId()).findFirst();
         this.category = first.orElse(Category.ALL);
         this.started = false;
         this.dueDate = auctionDomain.getDueDate();

@@ -2,15 +2,13 @@ package com.rahnema.domain;
 
 import com.rahnema.model.Auction;
 
-import java.util.UUID;
-
 public class AuctionDomain {
     transient Auction auction;
     Long id;
     String title;
     String description;
     long basePrice;
-    UUID categoryId;
+    int categoryId;
     String categoryTitle;
     long dueDate;
     int maxUsers;
@@ -53,11 +51,11 @@ public class AuctionDomain {
         this.basePrice = basePrice;
     }
 
-    public UUID getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(UUID categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 

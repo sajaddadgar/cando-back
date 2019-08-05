@@ -6,7 +6,6 @@ import com.rahnema.domain.CategoryDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public enum Category {
     DIGITAL_GOODS("کالای دیجیتال"),
@@ -14,12 +13,11 @@ public enum Category {
     ALL("تمام کالاها");
 
 
-
-    private UUID id;
+    private int id;
     private String title;
 
     Category(final String title) {
-        this.id = UUID.randomUUID();
+        this.id = title.hashCode();
         this.title = title;
     }
 
@@ -27,7 +25,7 @@ public enum Category {
         return title;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
