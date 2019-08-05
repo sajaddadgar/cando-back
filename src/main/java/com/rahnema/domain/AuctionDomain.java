@@ -1,7 +1,6 @@
 package com.rahnema.domain;
 
 import com.rahnema.model.Auction;
-import com.rahnema.model.Category;
 
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public class AuctionDomain {
     String description;
     long basePrice;
     UUID categoryId;
-    Category category;
+    String categoryTitle;
     long dueDate;
     int maxUsers;
     String imageUrl;
@@ -23,7 +22,7 @@ public class AuctionDomain {
         this.title = auction.getTitle();
         this.description = auction.getDescription();
         this.basePrice = auction.getBasePrice();
-        this.category = auction.getCategory();
+        this.categoryTitle = auction.getCategory().getTitle();
         this.categoryId = auction.getCategory().getId();
         this.dueDate = auction.getDueDate();
         this.maxUsers = auction.getMaxUsers();

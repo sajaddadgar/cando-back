@@ -39,8 +39,6 @@ public class UserService {
             preUser.setEmail(!user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
             preUser.setPassword(!user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
             preUser.setImageUrl(!user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
-            preUser.setCreatedAuction(!user.getCreatedAuction().isEmpty() ? user.getCreatedAuction() : preUser.getCreatedAuction());
-            preUser.setRecoveryLink(!user.getRecoveryLink().isEmpty() ? user.getRecoveryLink() : preUser.getRecoveryLink());
         }
 
         userRepository.save(dbUser.get());

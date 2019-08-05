@@ -6,4 +6,5 @@ build
 .idea/
 out/
 application.properties
-/src/main/resources/application.properties
+.gitignore
+/home/mahdi/Projects/cando-back/src/main/resources/application.properties

@@ -26,8 +26,6 @@ public class AuctionService {
 
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
         Auction auction = new Auction(auctionDomain);
-        System.out.println(auction);
-        System.out.println(auctionDomain);
         Optional<User> user =userService.getOneUser(id);
         auctionRepository.save(auction);
         user.get().getCreatedAuction().add(auction);

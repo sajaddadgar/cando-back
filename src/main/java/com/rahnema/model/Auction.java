@@ -47,6 +47,9 @@ public class Auction {
         this.winner = null;
     }
 
+    public Auction() {
+    }
+
     public boolean isStarted() {
         return started;
     }
