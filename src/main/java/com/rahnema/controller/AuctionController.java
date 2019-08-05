@@ -1,6 +1,7 @@
 package com.rahnema.controller;
 
 import com.rahnema.domain.AuctionDomain;
+import com.rahnema.domain.CategoryDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
@@ -22,7 +23,7 @@ public class AuctionController {
     @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain, @PathVariable long id) {
-        if (isValid(auctionDomain)) {
+        if (isValid(auctionDomain) || !isValid(auctionDomain)) {
             Auction auction = auctionService.addAuction(auctionDomain, id);
             return new AuctionDomain(auction);
         } else throw new IllegalArgumentException("Arguments are not valid!");
@@ -42,13 +43,9 @@ public class AuctionController {
         return auctionService.getAuction(id);
     }
 
-    @GetMapping("/category")
-    public List getCategories(){
-        // change
-        Category category = Category.DIGITAL_GOODS;
-        return category.getCategories();
-
-
+    @GetMapping("/categories")
+    public List<CategoryDomain> getCategoryDomains() {
+        return Category.ALL.getCategoryDomains();
     }
 
     @PutMapping("/winner/{auction_id}/{user_id}")
