@@ -2,10 +2,13 @@ package com.rahnema.service;
 
 import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
+import com.rahnema.domain.HomepageDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,7 +23,7 @@ public class AuctionService {
     private UserService userService;
 
 
-    public Optional<Auction> getAuction(long id){
+    public Optional<Auction> getAuction(long id) {
         return auctionRepository.findById(id);
     }
 
@@ -30,17 +33,16 @@ public class AuctionService {
         return auctionInfoDomain;
     }
 
-
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
         Auction auction = new Auction(auctionDomain);
-        Optional<User> user =userService.getOneUser(id);
+        Optional<User> user = userService.getOneUser(id);
         auctionRepository.save(auction);
         user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
         return auction;
     }
 
-    public void settWinner(long auction_id, long user_id){
+    public void settWinner(long auction_id, long user_id) {
         Auction auction = auctionRepository.findById(auction_id).get();
         User user = userService.getOneUser(user_id).get();
         auction.setWinner(user);
@@ -48,4 +50,12 @@ public class AuctionService {
     }
 
 
+    public Page<Auction> getHomepage(HomepageDomain homepageDomain) {
+        if (!homepageDomain.getSearch().isEmpty()) {
+            System.err.println("\n\n isEmpty!!! \n\n");
+            return auctionRepository.findByTitle(homepageDomain.getSearch(),
+                    PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+        } else
+            return auctionRepository.findAll(PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+    }
 }

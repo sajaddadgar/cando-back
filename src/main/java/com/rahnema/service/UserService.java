@@ -50,6 +50,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    //TODO: change this method to auctionService
     public List<Auction> getMyAuctions(long id){
         Optional<User> user = userRepository.findById(id);
         return user.get().getCreatedAuction();

@@ -3,16 +3,19 @@ package com.rahnema.controller;
 import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.domain.CategoryDomain;
+import com.rahnema.domain.HomepageDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auction")
@@ -63,5 +66,20 @@ public class AuctionController {
         return "a user with id: " + user_id + " won action with id: " + auction_id;
     }
 
+    @GetMapping("/homepage/{id}")
+    public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain, @PathVariable long id) {
+        if (isValid(homepageDomain)) {
+            Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain);
+            System.err.println(homepageAuctions.getTotalElements() + " " + homepageAuctions.getTotalPages());
+            Page<AuctionDomain> map = homepageAuctions.map(AuctionDomain::new);
+            return map.get().collect(Collectors.toList());
+        }
+        throw new IllegalArgumentException("Arguments are invalid!");
+    }
+
+    private boolean isValid(HomepageDomain homepageDomain) {
+        return homepageDomain.getCount() > 0 &&
+                homepageDomain.getPage() >= 0;
+    }
 
 }

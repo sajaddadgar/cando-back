@@ -27,6 +27,7 @@ public class UserController {
         return userDomain.getEmail().contains("@") && !userDomain.getPassword().isEmpty();
     }
 
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDomain addUser(@RequestBody UserDomain userDomain) {
@@ -54,6 +55,5 @@ public class UserController {
     public List<Auction> getMyAuctions(@PathVariable long id){
         return userService.getMyAuctions(id);
     }
-
 
 }
