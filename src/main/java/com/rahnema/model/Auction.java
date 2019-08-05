@@ -1,7 +1,6 @@
 package com.rahnema.model;
 
 import com.rahnema.domain.AuctionDomain;
-import com.rahnema.domain.AuctionInfoDomain;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,7 +26,7 @@ public class Auction {
     private int activeUserCount;
     private boolean started;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "winner_id")
+    @JoinColumn(name = "winner")
     private User winner;
 
     public Auction(AuctionDomain auctionDomain) {
@@ -40,26 +39,12 @@ public class Auction {
         this.soldPrice = -1;
         this.bookmarkedCount = 0;
         Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
-                .filter(category1 -> category1.getId() == auctionDomain.getCategoryId()).findFirst();
+                .filter(category1 -> category1.getId().equals(auctionDomain.getCategoryId())).findFirst();
         this.category = first.orElse(Category.ALL);
         this.started = false;
         this.dueDate = auctionDomain.getDueDate();
         this.maxUsers = auctionDomain.getMaxUsers();
         this.winner = null;
-    }
-
-    public Auction(AuctionInfoDomain AuctionInfoDomain) {
-        this.title = AuctionInfoDomain.getTitle();
-        this.description = AuctionInfoDomain.getDescription();
-        this.imageUrl = AuctionInfoDomain.getImageUrl();
-        Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
-                .filter(category1 -> category1.getId() == AuctionInfoDomain.getCategoryId()).findFirst();
-        this.category = first.orElse(Category.ALL);
-        this.dueDate = AuctionInfoDomain.getDueDate();
-        this.maxUsers = AuctionInfoDomain.getMaxUsers();
-    }
-
-    public Auction() {
     }
 
     public boolean isStarted() {

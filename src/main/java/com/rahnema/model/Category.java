@@ -1,12 +1,15 @@
 package com.rahnema.model;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 public enum Category {
     DIGITAL_GOODS("کالای دیجیتال"),
-    SPORT("ورزشی");
+    SPORT("ورزشی"),
+    ALL("تمام کالاها");
+
 
 
     private UUID id;

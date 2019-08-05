@@ -1,43 +1,15 @@
 package com.rahnema.domain;
 
-import com.rahnema.model.Auction;
-
-import java.util.Date;
+import java.util.UUID;
 
 public class AuctionDomain {
-    transient Auction auction;
-    Long id;
     String title;
     String description;
     long basePrice;
-    int categoryId;
-    String categoryTitle;
+    UUID categoryId;
     long dueDate;
     int maxUsers;
-    int remainedUsers;
-    long remainedTime;
     String imageUrl;
-    boolean bookmarked;
-    boolean enabled;
-    boolean started;
-
-    public AuctionDomain(Auction auction) {
-        this.auction = auction;
-        this.id = auction.getId();
-        this.title = auction.getTitle();
-        this.description = auction.getDescription();
-        this.basePrice = auction.getBasePrice();
-        this.categoryTitle = auction.getCategory().getTitle();
-        this.categoryId = auction.getCategory().getId();
-        this.dueDate = auction.getDueDate();
-        this.maxUsers = auction.getMaxUsers();
-        this.imageUrl = auction.getImageUrl();
-        this.remainedUsers = this.maxUsers - auction.getActiveUserCount();
-        this.remainedTime = auction.getDueDate() - new Date().getTime();
-        this.enabled = auction.getMaxUsers() > auction.getActiveUserCount();
-        this.bookmarked = false;
-        this.started = auction.getDueDate() < new Date().getTime();
-    }
 
     public String getTitle() {
         return title;
@@ -63,11 +35,11 @@ public class AuctionDomain {
         this.basePrice = basePrice;
     }
 
-    public int getCategoryId() {
+    public UUID getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(UUID categoryId) {
         this.categoryId = categoryId;
     }
 
