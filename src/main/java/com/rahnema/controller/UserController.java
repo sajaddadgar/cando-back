@@ -62,6 +62,8 @@ public class UserController {
         userService.recoverPassword(id);
         return true;
     }
+
+
 }
 
 

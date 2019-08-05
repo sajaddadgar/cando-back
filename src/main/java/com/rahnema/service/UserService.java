@@ -5,10 +5,12 @@ import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,18 +68,23 @@ public class UserService {
     }
 
 
+    //ToDo: generate a random url
     public void recoverPassword(long id) {
-        SimpleMailMessage mail = new SimpleMailMessage();
         Optional<User> user = userRepository.findById(id);
-
         if (user.isPresent()) {
-            mail.setTo(user.get().getEmail());
-            mail.setSubject("کندو - بازیابی رمز عبور");
-            mail.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛ " +
-                    "فقط حواست باشه، رمزت معتبر باشه :)");
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+            try {
+                messageHelper.setSubject("کندو - بازیابی رمز عبور");
+                messageHelper.setTo(user.get().getEmail());
+                messageHelper.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛" +
+                        "<br/><a href='http://localhost:8080/user/1'>ok</a>!\n", true);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
 
+            javaMailSender.send(message);
         }
-        javaMailSender.send(mail);
 
     }
 
