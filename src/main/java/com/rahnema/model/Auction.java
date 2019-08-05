@@ -26,7 +26,7 @@ public class Auction {
     private int activeUserCount;
     private boolean started;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "winner")
+    @JoinColumn(name = "winner_id")
     private User winner;
 
     public Auction(AuctionDomain auctionDomain) {

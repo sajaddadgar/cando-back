@@ -1,5 +1,6 @@
 package com.rahnema.service;
 
+import com.rahnema.domain.UserDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
@@ -15,8 +16,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void addUser(User user){
+    public User addUser(UserDomain userDomain) {
+        User user = new User(userDomain);
         userRepository.save(user);
+        return user;
+    }
+
+    public User addUser(User user) {
+        userRepository.save(user);
+        return user;
     }
 
     public Optional<User> getOneUser(long id){
@@ -24,7 +32,6 @@ public class UserService {
     }
 
     public void update(User user, long id){
-        // handle null value of updated user
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isPresent()){
             dbUser.get().setName(user.getName());
@@ -36,6 +43,7 @@ public class UserService {
         }
 
         userRepository.save(dbUser.get());
+
     }
 
 

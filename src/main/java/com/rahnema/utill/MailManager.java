@@ -40,7 +40,6 @@ public class MailManager {
     }
 
 
-
     public boolean sendMessage(
             String smtp_host_address,
             String smtp_port_number,

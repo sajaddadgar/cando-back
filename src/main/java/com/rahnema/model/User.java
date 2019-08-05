@@ -1,6 +1,8 @@
 package com.rahnema.model;
 
 
+import com.rahnema.domain.UserDomain;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,6 +21,15 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
     private List<Auction> createdAuction;
+
+    public User(UserDomain userDomain) {
+        this.name = userDomain.getName();
+        this.email = userDomain.getEmail();
+        this.password = userDomain.getPassword();
+        this.imageUrl = userDomain.getImageUrl();
+        this.recoveryLink = "";
+        this.createdAuction = null;
+    }
 
     public long getId() {
         return id;

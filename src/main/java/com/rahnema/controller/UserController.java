@@ -1,5 +1,6 @@
 package com.rahnema.controller;
 
+import com.rahnema.domain.UserDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.service.UserService;
@@ -22,18 +23,26 @@ public class UserController {
         return userService.getOneUser(id);
     }
 
+    private boolean isValid(UserDomain userDomain) {
+        return userDomain.getEmail().contains("@") && !userDomain.getPassword().isEmpty();
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addUser(@RequestBody User user){
-        userService.addUser(user);
-        return "a user added";
+    public UserDomain addUser(@RequestBody UserDomain userDomain) {
+        if (isValid(userDomain)) {
+            User user = userService.addUser(userDomain);
+            return new UserDomain(user);
+        } else throw new IllegalArgumentException("Arguments are not valid!");
     }
 
     @PutMapping("/update/{id}")
-    public String update(@RequestBody User user, @PathVariable long id){
+    public String update(@RequestBody UserDomain userDomain, @PathVariable long id) {
+        User user = new User(userDomain);
         userService.update(user, id);
         return "a user changed";
     }
+
 
     @DeleteMapping("/remove/{id}")
     public String remove(@PathVariable long id){
