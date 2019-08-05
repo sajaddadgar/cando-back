@@ -1,15 +1,34 @@
 package com.rahnema.domain;
 
+import com.rahnema.model.Auction;
+import com.rahnema.model.Category;
+
 import java.util.UUID;
 
 public class AuctionDomain {
+    transient Auction auction;
+    Long id;
     String title;
     String description;
     long basePrice;
     UUID categoryId;
+    Category category;
     long dueDate;
     int maxUsers;
     String imageUrl;
+
+    public AuctionDomain(Auction auction) {
+        this.auction = auction;
+        this.id = auction.getId();
+        this.title = auction.getTitle();
+        this.description = auction.getDescription();
+        this.basePrice = auction.getBasePrice();
+        this.category = auction.getCategory();
+        this.categoryId = auction.getCategory().getId();
+        this.dueDate = auction.getDueDate();
+        this.maxUsers = auction.getMaxUsers();
+        this.imageUrl = auction.getImageUrl();
+    }
 
     public String getTitle() {
         return title;

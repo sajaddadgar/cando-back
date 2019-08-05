@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,23 +19,42 @@ public class AuctionController {
     @Autowired
     private AuctionService auctionService;
 
-    @PostMapping("/add/{id}")
+    @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addAuction(@RequestBody AuctionDomain auction, @PathVariable long id) {
-        auctionService.addAuction(auction, id);
-        return "a auction added";
+    public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain, @PathVariable long id) {
+        if (isValid(auctionDomain)) {
+            Auction auction = auctionService.addAuction(auctionDomain, id);
+            return new AuctionDomain(auction);
+        } else throw new IllegalArgumentException("Arguments are not valid!");
+    }
+
+    private boolean isValid(AuctionDomain auctionDomain) {
+        return !auctionDomain.getTitle().isEmpty() &&
+                auctionDomain.getBasePrice() > 0 &&
+                new Date().getTime() < auctionDomain.getDueDate() &&
+                Category.ALL.getCategories().stream().anyMatch(category -> auctionDomain.getCategoryId().equals(category.getId())) &&
+                auctionDomain.getMaxUsers() >= 0;
     }
 
 
-    @GetMapping("/getOne/{id}")
-    public Optional<Auction> getOneAuction(long id){
+    @GetMapping("/{id}")
+    public Optional<Auction> getOneAuction(@PathVariable long id){
         return auctionService.getAuction(id);
     }
 
     @GetMapping("/category")
     public List getCategories(){
+        // change
         Category category = Category.DIGITAL_GOODS;
         return category.getCategories();
 
+
     }
+
+    @PutMapping("/winner/{auction_id}/{user_id}")
+    public String setWinner(@PathVariable long auction_id, @PathVariable long user_id){
+        auctionService.settWinner(auction_id, user_id);
+        return "a user with id: " + user_id + " won action with id: " + auction_id;
+    }
+
 }
