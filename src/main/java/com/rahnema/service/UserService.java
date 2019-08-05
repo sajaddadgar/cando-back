@@ -66,12 +66,19 @@ public class UserService {
     }
 
 
-    public void recoverPassword() {
+    public void recoverPassword(long id) {
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo("sajad.dadgar98@gmail.com");
-        mail.setSubject("ssss");
-        mail.setText("aaaa");
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            mail.setTo(user.get().getEmail());
+            mail.setSubject("کندو - بازیابی رمز عبور");
+            mail.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛ " +
+                    "فقط حواست باشه، رمزت معتبر باشه :)");
+
+        }
         javaMailSender.send(mail);
+
     }
 
 }

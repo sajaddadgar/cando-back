@@ -57,9 +57,12 @@ public class UserController {
     }
 
 
-    @PostMapping("/recover")
-    public boolean recoverPassword() {
-        userService.recoverPassword();
+    @PostMapping("/recover/{id}")
+    public boolean recoverPassword(@PathVariable long id) {
+        userService.recoverPassword(id);
         return true;
     }
 }
+
+
+
