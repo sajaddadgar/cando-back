@@ -4,6 +4,7 @@ import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.domain.HomepageDomain;
 import com.rahnema.model.Auction;
+import com.rahnema.model.Category;
 import com.rahnema.model.User;
 import com.rahnema.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -51,11 +53,15 @@ public class AuctionService {
 
 
     public Page<Auction> getHomepage(HomepageDomain homepageDomain) {
+        Optional<Category> first = Arrays.stream(Category.values()).filter(category -> category.getId() == homepageDomain.getCategoryId()).findFirst();
+        Arrays.stream(Category.values()).forEach(category -> System.out.println(category.getTitle() + " " + category.getId()));
+        System.out.println(homepageDomain.getCategoryId());
+
         if (!homepageDomain.getSearch().isEmpty()) {
-            System.err.println("\n\n isEmpty!!! \n\n");
-            return auctionRepository.findByTitle(homepageDomain.getSearch(),
+            return auctionRepository.findByTitleAndCategory(homepageDomain.getSearch(),
+                    first.orElse(Category.SPORT),
                     PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
         } else
-            return auctionRepository.findAll(PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+            return auctionRepository.findByCategory(first.orElse(Category.ALL), PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
     }
 }

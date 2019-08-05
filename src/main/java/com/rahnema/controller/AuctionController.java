@@ -70,7 +70,6 @@ public class AuctionController {
     public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain, @PathVariable long id) {
         if (isValid(homepageDomain)) {
             Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain);
-            System.err.println(homepageAuctions.getTotalElements() + " " + homepageAuctions.getTotalPages());
             Page<AuctionDomain> map = homepageAuctions.map(AuctionDomain::new);
             return map.get().collect(Collectors.toList());
         }
