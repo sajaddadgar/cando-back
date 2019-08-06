@@ -66,7 +66,7 @@ public class AuctionController {
         return "a user with id: " + user_id + " won action with id: " + auction_id;
     }
 
-    @GetMapping("/homepage/{id}")
+    @PostMapping("/homepage/{id}")
     public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain, @PathVariable long id) {
         if (isValid(homepageDomain)) {
             Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain);
