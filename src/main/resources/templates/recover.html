@@ -4,21 +4,14 @@
     <title>Title</title>
 </head>
 <body>
-<a href="#" th:text="${id}">Title ...</a>
 <div>
     <form action="/user/changepassword" method="post">
-        <!--Todo: implement change password' form without input for id -->
-        <input name="id" type="text"/>
+        <input hidden name="id" th:value="${id}" type="text"/>
         <input name="pass" type="text"/>
         <input name="pass2" type="text"/>
         <input type="submit" value="change"/>
     </form>
 </div>
 
-<script>
-    function sendRequest() {
-        window.location = "http://localhost:8080/user/changepassword/" + [[${id}]];
-    }
-</script>
 </body>
 </html>
