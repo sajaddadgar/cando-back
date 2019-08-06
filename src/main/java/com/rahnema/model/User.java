@@ -6,6 +6,7 @@ import com.rahnema.domain.UserDomain;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -27,7 +28,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "auction_id")})
     @JsonIgnore
-    private List<Auction> bookmarkAuction;
+    private Set<Auction> bookmarkAuction;
 
 
     public User(UserDomain userDomain) {
@@ -43,11 +44,11 @@ public class User {
     }
 
 
-    public List<Auction> getBookmarkAuction() {
+    public Set<Auction> getBookmarkAuction() {
         return bookmarkAuction;
     }
 
-    public void setBookmarkAuction(List<Auction> bookmarkAuction) {
+    public void setBookmarkAuction(Set<Auction> bookmarkAuction) {
         this.bookmarkAuction = bookmarkAuction;
     }
 

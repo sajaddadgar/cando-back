@@ -6,8 +6,8 @@ import com.rahnema.domain.AuctionInfoDomain;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Auction {
@@ -33,7 +33,7 @@ public class Auction {
     private User winner;
     @ManyToMany(mappedBy = "bookmarkAuction")
     @JsonIgnore
-    private List<User> bookmarkUser;
+    private Set<User> bookmarkUser;
 
     public Auction(AuctionDomain auctionDomain) {
         this.title = auctionDomain.getTitle();
@@ -67,11 +67,11 @@ public class Auction {
     public Auction() {
     }
 
-    public List<User> getBookmarkUser() {
+    public Set<User> getBookmarkUser() {
         return bookmarkUser;
     }
 
-    public void setBookmarkUser(List<User> bookmarkUser) {
+    public void setBookmarkUser(Set<User> bookmarkUser) {
         this.bookmarkUser = bookmarkUser;
     }
 

@@ -76,9 +76,19 @@ public class AuctionController {
         throw new IllegalArgumentException("Arguments are invalid!");
     }
 
+    @GetMapping("/myauctions/{id}")
+    public List<Auction> getMyAuctions(@PathVariable long userId) {
+        return auctionService.getMyAuctions(userId);
+    }
+
     private boolean isValid(HomepageDomain homepageDomain) {
         return homepageDomain.getCount() > 0 &&
                 homepageDomain.getPage() >= 0;
+    }
+
+    @GetMapping("/mybookmarked/{id}")
+    public List<Auction> getMyBookmarked(@PathVariable long userId) {
+        return auctionService.getMyBookmarked(userId);
     }
 
 }

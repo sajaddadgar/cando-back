@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,5 +64,16 @@ public class AuctionService {
                     PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
         } else
             return auctionRepository.findByCategory(first.orElse(Category.ALL), PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+    }
+
+
+    public List<Auction> getMyAuctions(long userId) {
+        // TODO: 8/6/2019 : implement this method.
+        return null;
+    }
+
+    public List<Auction> getMyBookmarked(long userId) {
+        // TODO: 8/6/2019 : implement this method. 
+        return null;
     }
 }

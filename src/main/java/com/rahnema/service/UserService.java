@@ -1,7 +1,6 @@
 package com.rahnema.service;
 
 import com.rahnema.domain.UserDomain;
-import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,12 +57,6 @@ public class UserService {
 
     public void remove(long id){
         userRepository.deleteById(id);
-    }
-
-    //TODO: change this method to auctionService
-    public List<Auction> getMyAuctions(long id){
-        Optional<User> user = userRepository.findById(id);
-        return user.get().getCreatedAuction();
     }
 
 

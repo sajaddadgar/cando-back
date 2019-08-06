@@ -1,14 +1,12 @@
 package com.rahnema.controller;
 
 import com.rahnema.domain.UserDomain;
-import com.rahnema.model.Auction;
 import com.rahnema.model.User;
 import com.rahnema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,11 +47,6 @@ public class UserController {
     public String remove(@PathVariable long id){
         userService.remove(id);
         return "a user removed";
-    }
-
-    @GetMapping("/myAuction/{id}")
-    public List<Auction> getMyAuctions(@PathVariable long id){
-        return userService.getMyAuctions(id);
     }
 
 
