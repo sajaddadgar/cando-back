@@ -68,7 +68,9 @@ public class ImageController {
         return new ImageDomain(storageService.storeAvatar(avatar));
     }
 
-    @PostMapping("/upload/banner")
+    @CrossOrigin
+    @RequestMapping("/upload/banner")
+    @ResponseBody
     public ImageDomain storeBanner(@RequestParam("banner") MultipartFile banner) {
         return new ImageDomain(storageService.storeBanner(banner));
     }
