@@ -6,7 +6,12 @@ import com.rahnema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -54,6 +59,19 @@ public class UserController {
     public boolean recoverPassword(@PathVariable String email) {
         userService.findByEmail(email);
         return true;
+    }
+
+    @RequestMapping("/redirect/{id}")
+    public ModelAndView dis(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+        ModelAndView modelAndView = new ModelAndView("recover.html");
+
+        return modelAndView;
+    }
+
+    @PutMapping("/changepassword")
+    public Optional<User> changePass(@RequestParam("id") String id, @RequestParam("password") String password) {
+        userService.change(Long.parseLong(id), password);
+        return userService.getOneUser(Long.parseLong(id));
     }
 
 
