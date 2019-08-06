@@ -68,7 +68,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @PutMapping("/changepassword")
+    @PostMapping("/changepassword")
     public Optional<User> changePass(@RequestParam("id") String id, @RequestParam("password") String password) {
         userService.change(Long.parseLong(id), password);
         return userService.getOneUser(Long.parseLong(id));

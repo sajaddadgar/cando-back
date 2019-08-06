@@ -64,12 +64,15 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-        String a = "<br> http://localhost:8080/user/redirect/" + user.getId();
+        String a = "http://localhost:8080/user/redirect/" + user.getId();
+        user.setRecoveryLink(a);
+//        update(user, user.getId());
+        userRepository.save(user);
         try {
             messageHelper.setSubject("کندو - بازیابی رمز عبور");
             messageHelper.setTo(user.getEmail());
             messageHelper.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛" +
-                    a, true);
+                    "<br>" + a, true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
