@@ -31,8 +31,7 @@ public class AuctionService {
 
     public AuctionInfoDomain getAuctionInfo(long id) {
         Optional<Auction> auction = auctionRepository.findById(id);
-        AuctionInfoDomain auctionInfoDomain = new AuctionInfoDomain(auction.get());
-        return auctionInfoDomain;
+        return new AuctionInfoDomain(auction.orElseThrow(IllegalArgumentException::new));
     }
 
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
