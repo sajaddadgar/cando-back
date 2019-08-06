@@ -1,5 +1,6 @@
 package com.rahnema.controller;
 
+import com.rahnema.domain.ImageDomain;
 import com.rahnema.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -63,16 +64,13 @@ public class ImageController {
     }
 
     @PostMapping("/upload/avatar")
-    public String storeAvatar(@RequestParam("avatar") MultipartFile avatar) {
-        storageService.storeAvatar(avatar);
-        return "file uploaded!";
-
+    public ImageDomain storeAvatar(@RequestParam("avatar") MultipartFile avatar) {
+        return new ImageDomain(storageService.storeAvatar(avatar));
     }
 
     @PostMapping("/upload/banner")
-    public String storeBanner(@RequestParam("banner") MultipartFile banner) {
-        storageService.storeBanner(banner);
-        return "banner uploaded!";
+    public ImageDomain storeBanner(@RequestParam("banner") MultipartFile banner) {
+        return new ImageDomain(storageService.storeBanner(banner));
     }
 
 

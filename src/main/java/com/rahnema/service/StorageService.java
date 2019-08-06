@@ -10,9 +10,9 @@ public interface StorageService {
 
     void init();
 
-    void storeAvatar(MultipartFile file);
+    String storeAvatar(MultipartFile file);
 
-    void storeBanner(MultipartFile file);
+    String storeBanner(MultipartFile file);
 
     Path loadAvatar(String filename);
 

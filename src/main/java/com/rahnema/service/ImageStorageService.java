@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 
 @Service
 public class ImageStorageService implements StorageService {
@@ -39,13 +40,13 @@ public class ImageStorageService implements StorageService {
     }
 
     @Override
-    public void storeAvatar(MultipartFile file) {
-        store(file, avatarPath);
+    public String storeAvatar(MultipartFile file) {
+        return store(file, avatarPath);
     }
 
     @Override
-    public void storeBanner(MultipartFile file) {
-        store(file, auctionPath);
+    public String storeBanner(MultipartFile file) {
+        return store(file, auctionPath);
     }
 
     @Override
@@ -68,8 +69,10 @@ public class ImageStorageService implements StorageService {
         return loadAsResource(filename, avatarPath);
     }
 
-    private void store(MultipartFile file, Path path) {
+    private String store(MultipartFile file, Path path) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        filename = new Date().getTime() + "."
+                + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
         try {
             if (file.isEmpty())
                 throw new IllegalArgumentException("failed to store empty file" + filename);
@@ -77,6 +80,7 @@ public class ImageStorageService implements StorageService {
                 throw new IllegalArgumentException("relative path error" + filename);
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, path.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                return filename;
             }
 
         } catch (IOException e) {
