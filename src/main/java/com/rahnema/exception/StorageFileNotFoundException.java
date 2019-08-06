@@ -1,4 +1,4 @@
-package com.rahnema.storage;
+package com.rahnema.exception;
 
 public class StorageFileNotFoundException extends StorageException {
 

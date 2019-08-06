@@ -28,5 +28,10 @@ public class Handler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public final ResponseEntity<Error> storage(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 408));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
 
 }
