@@ -68,24 +68,20 @@ public class UserService {
     }
 
 
-    //ToDo: generate a random url
-    public void recoverPassword(long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-            try {
-                messageHelper.setSubject("کندو - بازیابی رمز عبور");
-                messageHelper.setTo(user.get().getEmail());
-                messageHelper.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛" +
-                        "<br/><a href='http://localhost:8080/user/1'>ok</a>!\n", true);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-
-            javaMailSender.send(message);
+    public void findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+        try {
+            messageHelper.setSubject("کندو - بازیابی رمز عبور");
+            messageHelper.setTo(user.getEmail());
+            messageHelper.setText("برای تغییر رمز عبور، برو تو لینک زیر، و رمز عبورتو عوض کن؛" +
+                    "<br/><a href='http://localhost:8080/user/1'>ok</a>!\n", true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
 
+        javaMailSender.send(message);
     }
 
 }
