@@ -34,9 +34,9 @@ body of this request must contain this props in JSON:
 
 To recover the user password, `POST` on this URL:
 
-`/user/recover/{id}`
+`/user/recover/{email}`
 
-`{id}` is userId.
+`{email}` is user's email.
 
 body of this request must contain this props in JSON:
 
