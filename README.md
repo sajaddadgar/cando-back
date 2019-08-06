@@ -11,7 +11,7 @@ body of this request must contain these props:
 1. name
 2. email
 3. password (must be hashed)
-4. image
+4. imageUrl
 
 
 ### Update User
