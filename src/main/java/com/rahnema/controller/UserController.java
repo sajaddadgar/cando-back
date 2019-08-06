@@ -1,6 +1,7 @@
 package com.rahnema.controller;
 
 import com.rahnema.domain.UserDomain;
+import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.User;
 import com.rahnema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -62,16 +59,24 @@ public class UserController {
     }
 
     @RequestMapping("/redirect/{id}")
-    public ModelAndView dis(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+    public ModelAndView dis(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("recover.html");
-
+        modelAndView.addObject("name", userService.getOneUser(id).get().getName());
+        modelAndView.addObject("id", userService.getOneUser(id).get().getId());
         return modelAndView;
     }
 
+
     @PostMapping("/changepassword")
-    public Optional<User> changePass(@RequestParam("id") String id, @RequestParam("password") String password) {
-        userService.change(Long.parseLong(id), password);
-        return userService.getOneUser(Long.parseLong(id));
+    public ModelAndView changePass
+            (@RequestParam("id") String id, @RequestParam("pass") String password, @RequestParam("pass2") String password2) {
+        if (password.equals(password2)) {
+            userService.change(Long.parseLong(id), password);
+        } else {
+            throw new WrongArgumantException("پسورد ها با هم یکی نیست");
+        }
+
+        return new ModelAndView("complete.html");
     }
 
 

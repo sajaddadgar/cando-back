@@ -64,9 +64,9 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
+
         String a = "http://localhost:8080/user/redirect/" + user.getId();
         user.setRecoveryLink(a);
-//        update(user, user.getId());
         userRepository.save(user);
         try {
             messageHelper.setSubject("کندو - بازیابی رمز عبور");

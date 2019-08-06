@@ -1,18 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>recover</title>
+    <title>Title</title>
 </head>
 <body>
-
+<a href="#" th:text="${id}">Title ...</a>
 <div>
-    <form action="http://localhost:8080/user/changepassword" method="post">
-        <input name="id" type="text">
-        <input name="password" type="text"/>
+    <form action="/user/changepassword" method="post">
+        <!--Todo: implement change password' form without input for id -->
+        <input name="id" type="text"/>
+        <input name="pass" type="text"/>
+        <input name="pass2" type="text"/>
         <input type="submit" value="change"/>
     </form>
 </div>
 
+<script>
+    function sendRequest() {
+        window.location = "http://localhost:8080/user/changepassword/" + [[${id}]];
+    }
+</script>
 </body>
 </html>
