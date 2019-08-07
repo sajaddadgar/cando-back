@@ -19,6 +19,7 @@ public class User {
     private String email;
     private String password;
     private String imageUrl;
+    private String token;
     private String recoveryLink;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
@@ -36,6 +37,7 @@ public class User {
         this.email = userDomain.getEmail() != null ? userDomain.getEmail() : "";
         this.password = userDomain.getPassword() != null ? userDomain.getPassword() : "";
         this.imageUrl = userDomain.getImageUrl() != null ? userDomain.getImageUrl() : "";
+        this.token = "";
         this.recoveryLink = "";
         this.createdAuction = null;
     }
@@ -106,5 +108,13 @@ public class User {
 
     public void setCreatedAuction(List<Auction> createdAuction) {
         this.createdAuction = createdAuction;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

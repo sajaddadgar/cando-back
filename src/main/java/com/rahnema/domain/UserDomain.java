@@ -9,6 +9,7 @@ public class UserDomain {
     String email;
     String password;
     String imageUrl;
+    String token;
     String recoveryLink;
 
     public UserDomain(User user) {
@@ -17,6 +18,7 @@ public class UserDomain {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.imageUrl = user.getImageUrl();
+        this.token = user.getToken();
         this.recoveryLink = user.getRecoveryLink();
     }
 
@@ -58,5 +60,21 @@ public class UserDomain {
 
     public void setRecoveryLink(String recoveryLink) {
         this.recoveryLink = recoveryLink;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

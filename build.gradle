@@ -34,7 +34,5 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
 
-
-
 }
 

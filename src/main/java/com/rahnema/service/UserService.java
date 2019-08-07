@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -47,6 +48,7 @@ public class UserService {
             preUser.setName(!user.getName().isEmpty() ? user.getName() : preUser.getName());
             preUser.setEmail(!user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
             preUser.setPassword(!user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
+//            preUser.setToken(!user.getToken().isEmpty() ? user.getToken() : preUser.getToken());
             preUser.setImageUrl(!user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
         }
 
@@ -60,12 +62,13 @@ public class UserService {
     }
 
 
+    //Todo: token
     public void findByEmail(String email) {
         User user = userRepository.findByEmail(email);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
-
-        String a = "http://localhost:8080/user/redirect/" + user.getId();
+        user.setToken(UUID.randomUUID().toString());
+        String a = "http://localhost:8080/user/redirect/" + user.getId() + "/" + user.getToken();
         user.setRecoveryLink(a);
         userRepository.save(user);
         try {

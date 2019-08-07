@@ -58,7 +58,7 @@ public class UserController {
         return true;
     }
 
-    @RequestMapping("/redirect/{id}")
+    @RequestMapping("/redirect/{id}/{token}")
     public ModelAndView dis(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("recover.html");
         modelAndView.addObject("name", userService.getOneUser(id).get().getName());
@@ -72,6 +72,12 @@ public class UserController {
             (@RequestParam("id") String id, @RequestParam("pass") String password, @RequestParam("pass2") String password2) {
         if (password.equals(password2)) {
             userService.change(Long.parseLong(id), password);
+            Optional<User> user = userService.getOneUser(Long.parseLong(id));
+            if (user.isPresent()) {
+                user.get().setRecoveryLink("");
+                userService.addUser(user.get());
+            }
+
         } else {
             throw new WrongArgumantException("پسورد ها با هم یکی نیست");
         }
