@@ -4,6 +4,7 @@ import com.rahnema.domain.UserDomain;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${email.default.url}")
+    private String url;
 
     private JavaMailSender javaMailSender;
 
@@ -66,7 +70,7 @@ public class UserService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
         user.setToken(UUID.randomUUID().toString());
-        String a = "http://192.168.10.190/user/redirect/" + user.getId() + "/" + user.getToken();
+        String a = url + user.getId() + "/" + user.getToken();
         user.setRecoveryLink(a);
         userRepository.save(user);
         try {
