@@ -62,13 +62,12 @@ public class UserService {
     }
 
 
-    //Todo: token
     public void findByEmail(String email) {
         User user = userRepository.findByEmail(email);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message);
         user.setToken(UUID.randomUUID().toString());
-        String a = "http://localhost:8080/user/redirect/" + user.getId() + "/" + user.getToken();
+        String a = "http://192.168.10.190/user/redirect/" + user.getId() + "/" + user.getToken();
         user.setRecoveryLink(a);
         userRepository.save(user);
         try {
