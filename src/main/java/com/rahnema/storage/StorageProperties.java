@@ -1,24 +1,21 @@
 package com.rahnema.storage;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("storage")
 public class StorageProperties {
 
-    /**
-     * Folder location for storing files
-     */
-    private String location = System.getProperty("user.dir") + "/upload-dir";
-    private String avatarsLocation = location + "/avatars";
-    private String bannersLocation = location + "/banners";
-
+    @Value("${storage.upload.folder}")
+    private String location;
 
     public String getAvatarsLocation() {
-        return avatarsLocation;
+        return location + "/avatars";
+
     }
 
     public String getBannersLocation() {
-        return bannersLocation;
+        return location + "/banners";
     }
 
 }
