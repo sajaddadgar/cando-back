@@ -48,7 +48,6 @@ public class UserService {
             preUser.setName(!user.getName().isEmpty() ? user.getName() : preUser.getName());
             preUser.setEmail(!user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
             preUser.setPassword(!user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
-//            preUser.setToken(!user.getToken().isEmpty() ? user.getToken() : preUser.getToken());
             preUser.setImageUrl(!user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
         }
 
