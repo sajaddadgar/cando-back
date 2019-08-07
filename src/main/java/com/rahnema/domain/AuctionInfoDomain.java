@@ -2,6 +2,8 @@ package com.rahnema.domain;
 
 import com.rahnema.model.Auction;
 
+import java.util.Date;
+
 public class AuctionInfoDomain {
 
     transient Auction auction;
@@ -11,6 +13,7 @@ public class AuctionInfoDomain {
     String categoryTitle;
     String imageUrl;
     long dueDate;
+    long remainedTime;
     int maxUsers;
 
     public AuctionInfoDomain(Auction auction) {
@@ -22,6 +25,7 @@ public class AuctionInfoDomain {
         this.dueDate = auction.getDueDate();
         this.maxUsers = auction.getMaxUsers();
         this.imageUrl = auction.getImageUrl();
+        this.remainedTime = auction.getDueDate() - new Date().getTime();
     }
 
     public String getImageUrl() {

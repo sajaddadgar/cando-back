@@ -21,5 +21,4 @@ public class StorageProperties {
         return bannersLocation;
     }
 
-
 }
