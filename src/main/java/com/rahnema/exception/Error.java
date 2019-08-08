@@ -5,7 +5,6 @@ public class Error extends Exception {
     private String detail;
     private int code;
 
-
     public Error(String detail, int code) {
         super();
         this.code = code;

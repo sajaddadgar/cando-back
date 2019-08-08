@@ -1,6 +1,5 @@
 package com.rahnema.configuration;
 
-import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.service.UserDetailsServiceImpl;
 import com.rahnema.util.JwtToken;
 import com.rahnema.util.JwtTokenImpl;
@@ -24,45 +23,38 @@ import java.io.IOException;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;
-    private JwtToken jwtToken;
+    private JwtToken tokenUtil;
 
     @Autowired
     public AuthenticationFilter(UserDetailsServiceImpl userDetailsService, JwtTokenImpl jwtToken) {
         this.userDetailsService = userDetailsService;
-        this.jwtToken = jwtToken;
+        this.tokenUtil = jwtToken;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-        String email = null;
-        String token = null;
-
         final String requestTokenHeader = request.getHeader("Authorization");
-        // get token
-
+        String username = null;
+        String jwtToken = null;
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            token = requestTokenHeader.substring(7);
+            jwtToken = requestTokenHeader.substring(7);
             try {
-                email = jwtToken.getEmailFromToken(token);
-            } catch (WrongArgumantException e) {
-                System.out.println("unable to get jwt token");
-                // Todo: add ExpireJwtException in exception
+                username = tokenUtil.getUsernameFromToken(jwtToken);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Unable to get JWT Token");
+                // Todo: add new ExpireJwtException in exception package
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
             }
-
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
         }
 
-
-        // validate token
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
-            if (jwtToken.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            if (tokenUtil.validateToken(jwtToken, userDetails)) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }

@@ -3,6 +3,7 @@ package com.rahnema.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahnema.domain.UserDomain;
+import com.rahnema.domain.UserSignUpDomain;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,7 +32,6 @@ public class User {
     @JsonIgnore
     private Set<Auction> bookmarkAuction;
 
-
     public User(UserDomain userDomain) {
         this.name = userDomain.getName() != null ? userDomain.getName() : "";
         this.email = userDomain.getEmail() != null ? userDomain.getEmail() : "";
@@ -40,6 +40,11 @@ public class User {
         this.token = "";
         this.recoveryLink = "";
         this.createdAuction = null;
+    }
+
+    public User(UserSignUpDomain userInfoDomain) {
+        this.email = userInfoDomain.getEmail() != null ? userInfoDomain.getEmail() : "";
+        this.password = userInfoDomain.getPassword() != null ? userInfoDomain.getPassword() : "";
     }
 
     public User() {

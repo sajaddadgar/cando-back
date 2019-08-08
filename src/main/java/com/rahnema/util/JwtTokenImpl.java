@@ -16,18 +16,19 @@ import java.util.function.Function;
 public class JwtTokenImpl implements JwtToken {
 
     private static final long TOKEN_VALIDITY_TIME = 2 * 60 * 60;
+    private static final long serialVersionUID = -2550185165626007488L;
 
     @Value("${jwt.secret}")
     private String secretKey;
 
     @Override
-    public String getEmailFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
     @Override
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getEmailFromToken(token);
+        final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 

@@ -1,6 +1,7 @@
 package com.rahnema.controller;
 
 import com.rahnema.domain.UserDomain;
+import com.rahnema.domain.UserSignUpDomain;
 import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.User;
 import com.rahnema.service.UserService;
@@ -37,6 +38,13 @@ public class UserController {
         } else throw new IllegalArgumentException("Arguments are not valid!");
     }
 
+    @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserSignUpDomain addUser(@RequestBody UserSignUpDomain userSignUpDomain) {
+        User user = userService.addUser(userSignUpDomain);
+        return new UserSignUpDomain(user);
+    }
+
     @PutMapping("/update/{id}")
     public String update(@RequestBody UserDomain userDomain, @PathVariable long id) {
         User user = new User(userDomain);
@@ -61,7 +69,6 @@ public class UserController {
     @RequestMapping("/redirect/{id}/{token}")
     public ModelAndView dis(@PathVariable long id) {
         ModelAndView modelAndView = new ModelAndView("recover.html");
-        modelAndView.addObject("name", userService.getOneUser(id).get().getName());
         modelAndView.addObject("id", userService.getOneUser(id).get().getId());
         return modelAndView;
     }
@@ -77,15 +84,12 @@ public class UserController {
                 user.get().setRecoveryLink("");
                 userService.addUser(user.get());
             }
-
         } else {
             throw new WrongArgumantException("پسورد ها با هم یکی نیست");
         }
 
         return new ModelAndView("complete.html");
     }
-
-
 }
 
 

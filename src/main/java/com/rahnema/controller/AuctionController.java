@@ -49,7 +49,7 @@ public class AuctionController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Auction> getOneAuction(@PathVariable long id){
+    public Optional<Auction> getOneAuction(@PathVariable long id) {
 
         return auctionService.getAuction(id);
 
@@ -61,7 +61,7 @@ public class AuctionController {
     }
 
     @PutMapping("/winner/{auction_id}/{user_id}")
-    public String setWinner(@PathVariable long auction_id, @PathVariable long user_id){
+    public String setWinner(@PathVariable long auction_id, @PathVariable long user_id) {
         auctionService.settWinner(auction_id, user_id);
         return "a user with id: " + user_id + " won action with id: " + auction_id;
     }

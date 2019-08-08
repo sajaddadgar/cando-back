@@ -1,12 +1,14 @@
 package com.rahnema.service;
 
 import com.rahnema.domain.UserDomain;
+import com.rahnema.domain.UserSignUpDomain;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -19,6 +21,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Value("${email.default.url}")
     private String url;
@@ -32,11 +36,19 @@ public class UserService {
 
     public User addUser(UserDomain userDomain) {
         User user = new User(userDomain);
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;
     }
 
     public User addUser(User user) {
+        userRepository.save(user);
+        return user;
+    }
+
+    public User addUser(UserSignUpDomain userInfoDomain) {
+        User user = new User(userInfoDomain);
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;
     }

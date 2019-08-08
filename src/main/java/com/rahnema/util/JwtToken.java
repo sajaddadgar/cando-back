@@ -7,7 +7,7 @@ import java.util.Date;
 
 public interface JwtToken extends Serializable {
 
-    String getEmailFromToken(String token);
+    String getUsernameFromToken(String token);
 
     Boolean validateToken(String token, UserDetails userDetails);
 
