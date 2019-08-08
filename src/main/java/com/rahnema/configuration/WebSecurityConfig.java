@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/authenticate", "/user/signup").permitAll()
+                .antMatchers("/user/login", "/user/signup", "/user/recover/{email}", "/user/redirect/{id}/{token}", "/user/changepassword").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

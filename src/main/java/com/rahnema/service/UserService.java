@@ -1,6 +1,5 @@
 package com.rahnema.service;
 
-import com.rahnema.domain.UserDomain;
 import com.rahnema.domain.UserSignUpDomain;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
@@ -32,13 +31,6 @@ public class UserService {
     @Autowired
     public UserService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
-    }
-
-    public User addUser(UserDomain userDomain) {
-        User user = new User(userDomain);
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return user;
     }
 
     public User addUser(User user) {
@@ -99,9 +91,7 @@ public class UserService {
 
     public void change(long id, String password) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isPresent()) {
-            user.get().setPassword(password);
-        }
-        userRepository.save(user.get());
+        user.ifPresent(value -> value.setPassword(password));
+        user.ifPresent(user1 -> userRepository.save(user1));
     }
 }

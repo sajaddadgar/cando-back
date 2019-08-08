@@ -28,17 +28,7 @@ public class UserController {
         return userDomain.getEmail().contains("@") && !userDomain.getPassword().isEmpty();
     }
 
-
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDomain addUser(@RequestBody UserDomain userDomain) {
-        if (isValid(userDomain)) {
-            User user = userService.addUser(userDomain);
-            return new UserDomain(user);
-        } else throw new IllegalArgumentException("Arguments are not valid!");
-    }
-
-    @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public UserSignUpDomain addUser(@RequestBody UserSignUpDomain userSignUpDomain) {
         User user = userService.addUser(userSignUpDomain);
@@ -85,7 +75,7 @@ public class UserController {
                 userService.addUser(user.get());
             }
         } else {
-            throw new WrongArgumantException("پسورد ها با هم یکی نیست");
+            throw new WrongArgumantException("Not same");
         }
 
         return new ModelAndView("complete.html");
