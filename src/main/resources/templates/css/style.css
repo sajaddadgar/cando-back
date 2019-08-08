@@ -7,6 +7,7 @@ body {
 }
 
 .middle {
+
     position: absolute;
     top: 50%;
     left: 50%;
@@ -16,7 +17,7 @@ body {
 .middle h1 {
     font-size: 100px;
     text-transform: uppercase;
-
+    margin-top: 500px;
     color: #2c3e50;
     background-image: url(../img/water-transparent-animation-3.jpg);
     -webkit-background-clip: text;

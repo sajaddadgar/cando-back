@@ -5,24 +5,35 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
           integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
     <style>
       html, body {
       display: flex;
       justify-content: center;
       height: 100%;
-      background-image: url("img/changeBackground.jpg");
+          background-image: url("img/Untitle5d-1.jpg");
       background-repeat: no-repeat;
       background-position: right top;
       background-attachment: fixed;
       background-size: 100% 100%;
         }
-      body, div, h1, form, input, p {
+
+      body, div, h1, form, p {
       padding: 0;
       margin: 0;
       outline: none;
       font-family: Roboto, Arial, sans-serif;
       font-size: 16px;
-      color: #666;
+          color: white;
+      }
+
+      input {
+          padding: 0;
+          margin: 0;
+          outline: none;
+          font-family: Roboto, Arial, sans-serif;
+          font-size: 16px;
+          color: black;
       }
       h1 {
       padding: 10px 0;
@@ -39,13 +50,13 @@
       }
       .main-block {
       max-width: 340px;
-      min-height: 460px;
+          min-height: 300px;
       padding: 10px 0;
       margin: auto;
+          margin-top: 30px;
       border-radius: 5px;
       border: solid 1px #ccc;
-      box-shadow: 1px 2px 5px rgba(0,0,0,.31);
-      background: #ebebeb;
+
       }
       form {
       margin: 0 30px;
@@ -133,25 +144,29 @@
       color: #fff;
       }
       button:hover {
-      background: #26a9e0;
+          background: #c27c5e;
       }
 
     </style>
 </head>
 <body>
-<div class="main-block">
-    <h1>Recover Password</h1>
-    <form action="/user/changepassword" method="post">
-        <hr>
-        <input hidden name="id" th:value="${id}" type="text"/>
-        <label for="pass" id="icon"><i class="fas fa-unlock-alt"></i></label>
-        <input id="pass" name="pass" placeholder="Password" required type="password"/>
-        <label for="pass2" id="icon"><i class="fas fa-unlock-alt"></i></label>
-        <input id="pass2" name="pass2" placeholder="Repeat it!" required type="password"/>
-        <div class="btn-block">
-            <button type="submit" value="change">Submit</button>
-        </div>
-    </form>
+<div>
+
+    <div class="main-block">
+        <h1>Recover Password</h1>
+        <form action="/user/changepassword" method="post">
+            <hr>
+            <input hidden name="id" th:value="${id}" type="text"/>
+            <label for="pass" id="icon"><i class="fas fa-unlock-alt"></i></label>
+            <input id="pass" name="pass" placeholder="Password" required type="password"/>
+            <label for="pass2" id="icon"><i class="fas fa-unlock-alt"></i></label>
+            <input id="pass2" name="pass2" placeholder="Repeat it!" required type="password"/>
+            <div class="btn-block">
+                <button type="submit" value="change">Submit</button>
+            </div>
+        </form>
+
+    </div>
 </div>
 </body>
 </html>
