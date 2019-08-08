@@ -1,4 +1,5 @@
 # Cando backend 
+![cando_ultra_compressed](/uploads/e854683c72a7ebac8784aeea0ccbfa0c/cando_ultra_compressed.jpg)
 ## User API
 
 ### Create User
@@ -21,21 +22,21 @@ To recover the user password, `POST` on this URL:
 
 `/user/recover/{email}`
 
-`{email}` is user's email.
+`{email}` is the user's email.
 
 ### Login 
 To log in, do `POST` on this URL:
 
 `/user/login`
 
-body of this request must contin these props:
+body of this request must contain these props:
 
 1. email
 2. password
 
 The password must be hashed cause of security issues. 
 
-After successfull login, the user's token would be returned in JSON, in further described requests client must put this token in the header:
+After successful login, the user's token would be returned in JSON, in succeeding described requests client must put this token in the header:
 
 Header: `Authorization: Bearer TOKEN`
 
@@ -59,7 +60,7 @@ To get the user info, do `GET` on this URL:
 
 `/user/info/`
 
-body of the response would contain this fields in JSON:
+body of the response would contain these fields in JSON:
 1. name
 2. email
 3. imageUrl
@@ -68,7 +69,7 @@ body of the response would contain this fields in JSON:
 ## Auction API
 
 ### Create new auction 
-In order to create new Auction for a user, do `POST` on this url:
+To create new Auction for a user, do `POST` on this URL:
 
 `/auction/create/`
 
@@ -90,7 +91,7 @@ In order to get an auction details, do `GET` on this url:
 
 `{auctionId}` is the id of the auction.
 
-the response body will contain this fields in JSON:
+the response body will contain these fields in JSON:
 
 1. title
 2. description
@@ -107,7 +108,7 @@ To get static categories, do `GET` on this URL:
 
 `/auction/categories/`
 
-the response body will contain array of categories in JSON, each category will have an id and title.
+the response body will contain an array of categories in JSON, each category will have an id and title.
 
 ### Get Homepage auctions
 
@@ -123,7 +124,7 @@ body of this request must contain this props in JSON:
 4. categoryId
 5. search
 
-page is matter of page in pagination request, **zero based**.
+the page is a subject of the page in pagination request, **zero-based**.
 
 count is count of Auctions in response. 
 
@@ -138,7 +139,8 @@ categoryId is Id that represented in `/auction/categories/`.
 
 To filter by none, left the `search` field **empty**, else put your filter value.
 
-the response body will contain array of auction cards, each auction card would have this fields in JSON:
+the response body will contain an array of auction cards, each auction card would have this fields in JSON:
+
 
 1. id
 2. title
@@ -162,10 +164,38 @@ To get all user-created auctions, do `GET` on this URL:
 
 `/auction/myauctions/`
 
-### Get user bookmarked auctions
-
 To get  user bookmarked auction, do `GET` on this URL:
 
 `/auction/mybookmarked/`
 
+## Image API
+### Upload new avatar
+To upload a new avatar, do `POST` on this URL:
+
+`image/upload/avatar/`
+
+Afterward, the image new name would be returned in the response in JSON. 
+**To change the user's avatar, the client must send an update request to the server and change the ImageUrl field to the new name**
+
+### Download the avatar
+To download the avatar, do `GET` on this URL:
+
+`image/download/avatar/{name}`
+
+`{name}` must be a file name with its format. 
+
+### Uplaod new auction banner
+To upload a new auction banner, do `POST` on this URL:
+
+`image/upload/banner/`
+
+Afterward, the image new name would be returned in the response in JSON. 
+**To change the auction banner, the client must send an update request to the server and change the ImageUrl field to the new name**
+
+### Download the banner
+To download the banner, do `GET` on this URL:
+
+`image/download/banner/{name}`
+
+`{name}` must be a file name with its format.
 
