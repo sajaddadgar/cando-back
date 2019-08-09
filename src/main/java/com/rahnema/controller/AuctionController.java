@@ -61,7 +61,7 @@ public class AuctionController {
 
     @PostMapping("/bookmark/{id}")
     public String doBookmark(@RequestBody BookmarkedDomain bookmarked, @PathVariable long id) {
-        auctionService.doBookmark(bookmarked.isBookmarked(), id, userDetailsService.getUser());
+        auctionService.doBookmark(bookmarked.isBookmarked(), id, userDetailsService.getUser().getId());
         return "bookmarked status changed";
     }
 

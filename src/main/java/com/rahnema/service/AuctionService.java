@@ -76,19 +76,20 @@ public class AuctionService {
         return null;
     }
 
-    public void doBookmark(boolean bookmarked, long auctionId, User user) {
+    public void doBookmark(boolean bookmarked, long auctionId, long user) {
         Optional<Auction> byId = auctionRepository.findById(auctionId);
+        Optional<User> oneUser = userService.getOneUser(user);
         byId.ifPresent(auction -> {
             if (bookmarked) {
-                auction.addBookmarkUser(user);
-                user.addBookmarkedAuction(auction);
+                auction.addBookmarkUser(oneUser.get());
+                oneUser.get().addBookmarkedAuction(auction);
 
             } else {
-                auction.removeBookmarkUser(user);
-                user.removeBookmarkedAuction(auction);
+                auction.removeBookmarkUser(oneUser.get());
+                oneUser.get().removeBookmarkedAuction(auction);
             }
             auctionRepository.save(auction);
-            userService.update(user, user.getId());
+            userService.update(oneUser.get(), user);
         });
         byId.orElseThrow(WrongArgumentException::new);
     }
