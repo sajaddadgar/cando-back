@@ -28,11 +28,12 @@ public class AuctionController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @PostMapping("/create/{id}")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain, @PathVariable long id) {
+    public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain) {
+        //Todo: change this strong validation method :)
         if (isValid(auctionDomain) || !isValid(auctionDomain)) {
-            Auction auction = auctionService.addAuction(auctionDomain, id);
+            Auction auction = auctionService.addAuction(auctionDomain, userDetailsService.getUser().getId());
             return new AuctionDomain(auction);
         } else throw new IllegalArgumentException("Arguments are not valid!");
     }
@@ -47,16 +48,12 @@ public class AuctionController {
 
     @GetMapping("/info/{id}")
     public AuctionInfoDomain getAuctionInfo(@PathVariable long id) {
-
         return auctionService.getAuctionInfo(id);
-
     }
 
     @GetMapping("/{id}")
     public Optional<Auction> getOneAuction(@PathVariable long id) {
-
         return auctionService.getAuction(id);
-
     }
 
     @GetMapping("/categories")
@@ -64,14 +61,14 @@ public class AuctionController {
         return Category.ALL.getCategoryDomains();
     }
 
-    @PutMapping("/winner/{auction_id}/{user_id}")
-    public String setWinner(@PathVariable long auction_id, @PathVariable long user_id) {
-        auctionService.settWinner(auction_id, user_id);
-        return "a user with id: " + user_id + " won action with id: " + auction_id;
+    @PutMapping("/winner/{auction_id}")
+    public String setWinner(@PathVariable long auction_id) {
+        auctionService.settWinner(auction_id, userDetailsService.getUser().getId());
+        return "a user with id: " + userDetailsService.getUser().getId() + " won action with id: " + auction_id;
     }
 
-    @PostMapping("/homepage/{id}")
-    public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain, @PathVariable long id) {
+    @PostMapping("/homepage")
+    public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain) {
         if (isValid(homepageDomain)) {
             Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain);
             Page<AuctionDomain> map = homepageAuctions.map(AuctionDomain::new);
@@ -80,7 +77,7 @@ public class AuctionController {
         throw new IllegalArgumentException("Arguments are invalid!");
     }
 
-    @GetMapping("/myauctions/{id}")
+    @GetMapping("/myauctions")
     public List<Auction> getMyAuctions(@PathVariable long userId) {
         return auctionService.getMyAuctions(userId);
     }
@@ -90,7 +87,7 @@ public class AuctionController {
                 homepageDomain.getPage() >= 0;
     }
 
-    @GetMapping("/mybookmarked/{id}")
+    @GetMapping("/mybookmarked")
     public List<Auction> getMyBookmarked(@PathVariable long userId) {
         return auctionService.getMyBookmarked(userId);
     }
