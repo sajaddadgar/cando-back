@@ -26,6 +26,9 @@ public class Auction {
     private int bookmarkedCount;
     private int maxUsers;
     private Category category;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creator_id")
+    private User creator;
     private int activeUserCount;
     private boolean started;
     @OneToOne(cascade = CascadeType.ALL)
@@ -185,5 +188,13 @@ public class Auction {
 
     public void setWinner(User winner) {
         this.winner = winner;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

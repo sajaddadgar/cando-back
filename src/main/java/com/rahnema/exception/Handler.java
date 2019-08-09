@@ -1,8 +1,11 @@
 package com.rahnema.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -38,6 +41,24 @@ public class Handler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Error> emailValidation(Exception ex) {
         Error errorMessage = (new Error(ex.getMessage(), 2134089));
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.FOUND);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public final ResponseEntity<Error> disable(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 2184321));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<Error> badCredential(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 2185302));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public final ResponseEntity<Error> expireToken(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 6872120));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

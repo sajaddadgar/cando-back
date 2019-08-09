@@ -4,6 +4,7 @@ import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.domain.CategoryDomain;
 import com.rahnema.domain.HomepageDomain;
+import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
@@ -35,7 +36,7 @@ public class AuctionController {
         if (isValid(auctionDomain) || !isValid(auctionDomain)) {
             Auction auction = auctionService.addAuction(auctionDomain, userDetailsService.getUser().getId());
             return new AuctionDomain(auction);
-        } else throw new IllegalArgumentException("Arguments are not valid!");
+        } else throw new WrongArgumantException("Arguments are not valid!");
     }
 
     private boolean isValid(AuctionDomain auctionDomain) {
@@ -78,8 +79,8 @@ public class AuctionController {
     }
 
     @GetMapping("/myauctions")
-    public List<Auction> getMyAuctions(@PathVariable long userId) {
-        return auctionService.getMyAuctions(userId);
+    public List<Auction> getMyAuctions() {
+        return auctionService.getMyAuctions(userDetailsService.getUser().getId());
     }
 
     private boolean isValid(HomepageDomain homepageDomain) {

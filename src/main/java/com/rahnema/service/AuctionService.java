@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,8 @@ public class AuctionService {
         Auction auction = new Auction(auctionDomain);
         Optional<User> user = userService.getOneUser(id);
         auctionRepository.save(auction);
-        user.get().getCreatedAuction().add(auction);
+        auction.setCreator(user.get());
+//        user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
         return auction;
     }
@@ -68,7 +70,14 @@ public class AuctionService {
 
     public List<Auction> getMyAuctions(long userId) {
         // TODO: 8/6/2019 : implement this method.
-        return null;
+        List<Auction> auctions = (List<Auction>) auctionRepository.findAll();
+        List<Auction> myAcution = new ArrayList<>();
+        for (Auction auction : auctions) {
+            if (auction.getCreator().getId() == userId) {
+                myAcution.add(auction);
+            }
+        }
+        return myAcution;
     }
 
     public List<Auction> getMyBookmarked(long userId) {

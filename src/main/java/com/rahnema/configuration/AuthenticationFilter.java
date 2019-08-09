@@ -1,5 +1,6 @@
 package com.rahnema.configuration;
 
+import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.service.UserDetailsServiceImpl;
 import com.rahnema.util.JwtToken;
 import com.rahnema.util.JwtTokenImpl;
@@ -40,9 +41,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = tokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
+            } catch (WrongArgumantException e) {
                 System.out.println("Unable to get JWT Token");
-                // Todo: add new ExpireJwtException in exception package
             } catch (ExpiredJwtException e) {
                 System.out.println("JWT Token has expired");
             }

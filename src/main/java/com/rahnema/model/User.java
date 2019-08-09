@@ -4,7 +4,6 @@ package com.rahnema.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,9 +19,9 @@ public class User {
     private String imageUrl;
     private String token;
     private String recoveryLink;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "creator_id")
-    private List<Auction> createdAuction;
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "creator_id")
+//    private List<Auction> createdAuction;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOKMARK",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -90,13 +89,13 @@ public class User {
         this.recoveryLink = recoveryLink;
     }
 
-    public List<Auction> getCreatedAuction() {
-        return createdAuction;
-    }
-
-    public void setCreatedAuction(List<Auction> createdAuction) {
-        this.createdAuction = createdAuction;
-    }
+//    public List<Auction> getCreatedAuction() {
+//        return createdAuction;
+//    }
+//
+//    public void setCreatedAuction(List<Auction> createdAuction) {
+//        this.createdAuction = createdAuction;
+//    }
 
     public String getToken() {
         return token;
