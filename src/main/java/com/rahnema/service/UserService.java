@@ -79,11 +79,9 @@ public class UserService {
 
     }
 
-
     public void remove(long id){
         userRepository.deleteById(id);
     }
-
 
     public void findByEmail(String email) {
         User user = userRepository.findByEmail(email);

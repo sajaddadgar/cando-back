@@ -31,6 +31,7 @@ public class Auction {
     private User creator;
     private int activeUserCount;
     private boolean started;
+    private boolean boookmarked;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")
     private User winner;
@@ -206,5 +207,13 @@ public class Auction {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public boolean isBoookmarked() {
+        return boookmarked;
+    }
+
+    public void setBoookmarked(boolean boookmarked) {
+        this.boookmarked = boookmarked;
     }
 }

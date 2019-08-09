@@ -46,17 +46,29 @@ public class AuctionService {
         return auction;
     }
 
-    public Page<Auction> getHomepage(HomepageDomain homepageDomain) {
-        Optional<Category> first = Arrays.stream(Category.values()).filter(category -> category.getId() == homepageDomain.getCategoryId()).findFirst();
-        Arrays.stream(Category.values()).forEach(category -> System.out.println(category.getTitle() + " " + category.getId()));
-        System.out.println(homepageDomain.getCategoryId());
+    public Page<Auction> getHomepage(HomepageDomain homepageDomain, long id) {
+        Optional<Category> optionalCategory = Arrays.stream(Category.values())
+                .filter(category -> category.getId() == homepageDomain.getCategoryId()).findFirst();
+        Category category = optionalCategory.orElseThrow(WrongArgumentException::new);
 
-        if (!homepageDomain.getSearch().isEmpty()) {
-            return auctionRepository.findByTitleAndCategory(homepageDomain.getSearch(),
-                    first.orElse(Category.SPORT),
+        User user = userService.getOneUser(id).orElseThrow(WrongArgumentException::new);
+        Page<Auction> page;
+        if (category.equals(Category.ALL))
+            page = auctionRepository.findByTitleStartsWith(homepageDomain.getSearch(),
                     PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
-        } else
-            return auctionRepository.findByCategory(first.orElse(Category.ALL), PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+        else
+            page = auctionRepository.findByTitleStartsWithAndCategory(
+                    homepageDomain.getSearch(),
+                    category,
+                    PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
+
+        page.forEach(auction -> {
+            if (user.getBookmarkAuction().contains(auction))
+                auction.setBoookmarked(true);
+            else
+                auction.setBoookmarked(false);
+        });
+        return page;
     }
 
     public List<Auction> getMyAuctions(long userId) {
