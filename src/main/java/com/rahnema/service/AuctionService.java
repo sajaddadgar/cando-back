@@ -41,7 +41,6 @@ public class AuctionService {
         Optional<User> user = userService.getOneUser(id);
         auctionRepository.save(auction);
         auction.setCreator(user.get());
-//        user.get().getCreatedAuction().add(auction);
         userService.addUser(user.get());
         return auction;
     }

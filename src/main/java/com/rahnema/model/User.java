@@ -19,9 +19,7 @@ public class User {
     private String imageUrl;
     private String token;
     private String recoveryLink;
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "creator_id")
-//    private List<Auction> createdAuction;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "BOOKMARK",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -88,14 +86,6 @@ public class User {
     public void setRecoveryLink(String recoveryLink) {
         this.recoveryLink = recoveryLink;
     }
-
-//    public List<Auction> getCreatedAuction() {
-//        return createdAuction;
-//    }
-//
-//    public void setCreatedAuction(List<Auction> createdAuction) {
-//        this.createdAuction = createdAuction;
-//    }
 
     public String getToken() {
         return token;
