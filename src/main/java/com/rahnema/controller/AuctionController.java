@@ -68,7 +68,7 @@ public class AuctionController {
     @PostMapping("/homepage")
     public List<AuctionDomain> getHomepage(@RequestBody HomepageDomain homepageDomain) {
         if (isValid(homepageDomain)) {
-            Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain);
+            Page<Auction> homepageAuctions = auctionService.getHomepage(homepageDomain, userDetailsService.getUser().getId());
             Page<AuctionDomain> map = homepageAuctions.map(AuctionDomain::new);
             return map.get().collect(Collectors.toList());
         }

@@ -30,13 +30,16 @@ public class User {
     public User() {
     }
 
-
     public void addBookmarkedAuction(Auction auction) {
         bookmarkAuction.add(auction);
     }
 
     public void removeBookmarkedAuction(Auction auction) {
         bookmarkAuction.remove(auction);
+    }
+
+    public Set<Auction> getBookmarkAuction() {
+        return bookmarkAuction;
     }
 
     public long getId() {

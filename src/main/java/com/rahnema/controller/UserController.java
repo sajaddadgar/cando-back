@@ -51,13 +51,11 @@ public class UserController {
         return "a user changed";
     }
 
-
     @DeleteMapping("/remove")
     public String remove() {
         userService.remove(userDetailsService.getUser().getId());
         return "a user removed";
     }
-
 
     @PostMapping("/recover/{email}")
     public boolean recoverPassword(@PathVariable String email) {
@@ -71,7 +69,6 @@ public class UserController {
         modelAndView.addObject("id", userService.getOneUser(id).get().getId());
         return modelAndView;
     }
-
 
     @PostMapping("/changepassword")
     public ModelAndView changePass
