@@ -38,10 +38,6 @@ public class User {
         bookmarkAuction.remove(auction);
     }
 
-    public Set<Auction> getBookmarkAuction() {
-        return bookmarkAuction;
-    }
-
     public long getId() {
         return id;
     }
