@@ -107,7 +107,7 @@ public class UserService {
 
     public void change(long id, String password) {
         Optional<User> user = userRepository.findById(id);
-        user.ifPresent(value -> value.setPassword(password));
+        user.ifPresent(value -> value.setPassword(encoder.encode(password)));
         user.ifPresent(user1 -> userRepository.save(user1));
     }
 }
