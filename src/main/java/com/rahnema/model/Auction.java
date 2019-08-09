@@ -56,6 +56,20 @@ public class Auction {
         this.winner = null;
     }
 
+    public void addBookmarkUser(User user) {
+        if (!bookmarkUser.contains(user)) {
+            bookmarkUser.add(user);
+            bookmarkedCount++;
+        }
+    }
+
+    public void removeBookmarkUser(User user) {
+        if (bookmarkUser.contains(user)) {
+            bookmarkUser.remove(user);
+            bookmarkedCount--;
+        }
+    }
+
     public Auction(AuctionInfoDomain AuctionInfoDomain) {
         this.title = AuctionInfoDomain.getTitle();
         this.description = AuctionInfoDomain.getDescription();
@@ -72,10 +86,6 @@ public class Auction {
 
     public Set<User> getBookmarkUser() {
         return bookmarkUser;
-    }
-
-    public void setBookmarkUser(Set<User> bookmarkUser) {
-        this.bookmarkUser = bookmarkUser;
     }
 
     public boolean isStarted() {

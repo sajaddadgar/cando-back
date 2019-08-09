@@ -1,9 +1,6 @@
 package com.rahnema.controller;
 
-import com.rahnema.domain.AuctionDomain;
-import com.rahnema.domain.AuctionInfoDomain;
-import com.rahnema.domain.CategoryDomain;
-import com.rahnema.domain.HomepageDomain;
+import com.rahnema.domain.*;
 import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
@@ -62,10 +59,10 @@ public class AuctionController {
         return Category.ALL.getCategoryDomains();
     }
 
-    @PutMapping("/winner/{auction_id}")
-    public String setWinner(@PathVariable long auction_id) {
-        auctionService.settWinner(auction_id, userDetailsService.getUser().getId());
-        return "a user with id: " + userDetailsService.getUser().getId() + " won action with id: " + auction_id;
+    @PostMapping("/bookmark/{id}")
+    public String doBookmark(@RequestBody BookmarkedDomain bookmarked, @PathVariable long id) {
+        auctionService.doBookmark(bookmarked.isBookmarked(), id, userDetailsService.getUser());
+        return "bookmarked status changed";
     }
 
     @PostMapping("/homepage")

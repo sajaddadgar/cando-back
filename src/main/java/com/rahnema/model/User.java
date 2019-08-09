@@ -20,7 +20,7 @@ public class User {
     private String token;
     private String recoveryLink;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "BOOKMARK",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "auction_id")})
@@ -31,12 +31,12 @@ public class User {
     }
 
 
-    public Set<Auction> getBookmarkAuction() {
-        return bookmarkAuction;
+    public void addBookmarkedAuction(Auction auction) {
+        bookmarkAuction.add(auction);
     }
 
-    public void setBookmarkAuction(Set<Auction> bookmarkAuction) {
-        this.bookmarkAuction = bookmarkAuction;
+    public void removeBookmarkedAuction(Auction auction) {
+        bookmarkAuction.remove(auction);
     }
 
     public long getId() {

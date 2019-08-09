@@ -1,5 +1,6 @@
 package com.rahnema.service;
 
+import com.mysql.cj.exceptions.WrongArgumentException;
 import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 import com.rahnema.domain.HomepageDomain;
@@ -45,14 +46,6 @@ public class AuctionService {
         return auction;
     }
 
-    public void settWinner(long auction_id, long user_id) {
-        Auction auction = auctionRepository.findById(auction_id).get();
-        User user = userService.getOneUser(user_id).get();
-        auction.setWinner(user);
-        userService.addUser(user);
-    }
-
-
     public Page<Auction> getHomepage(HomepageDomain homepageDomain) {
         Optional<Category> first = Arrays.stream(Category.values()).filter(category -> category.getId() == homepageDomain.getCategoryId()).findFirst();
         Arrays.stream(Category.values()).forEach(category -> System.out.println(category.getTitle() + " " + category.getId()));
@@ -65,7 +58,6 @@ public class AuctionService {
         } else
             return auctionRepository.findByCategory(first.orElse(Category.ALL), PageRequest.of(homepageDomain.getPage(), homepageDomain.getCount()));
     }
-
 
     public List<Auction> getMyAuctions(long userId) {
         // TODO: 8/6/2019 : implement this method.
@@ -82,5 +74,22 @@ public class AuctionService {
     public List<Auction> getMyBookmarked(long userId) {
         // TODO: 8/6/2019 : implement this method. 
         return null;
+    }
+
+    public void doBookmark(boolean bookmarked, long auctionId, User user) {
+        Optional<Auction> byId = auctionRepository.findById(auctionId);
+        byId.ifPresent(auction -> {
+            if (bookmarked) {
+                auction.addBookmarkUser(user);
+                user.addBookmarkedAuction(auction);
+
+            } else {
+                auction.removeBookmarkUser(user);
+                user.removeBookmarkedAuction(auction);
+            }
+            auctionRepository.save(auction);
+            userService.update(user, user.getId());
+        });
+        byId.orElseThrow(WrongArgumentException::new);
     }
 }
