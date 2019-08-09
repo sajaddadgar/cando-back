@@ -51,7 +51,7 @@ public class UserService {
     }
 
     public User addUser(UserSignUpDomain userInfoDomain) throws EmailAlreadyExistException {
-        User user = new User(userInfoDomain);
+        User user = UserSignUpDomain.generateUser(userInfoDomain);
         if (emailValidation(user.getEmail())) {
             user.setPassword(encoder.encode(user.getPassword()));
             userRepository.save(user);

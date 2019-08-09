@@ -7,6 +7,7 @@ import com.rahnema.domain.HomepageDomain;
 import com.rahnema.model.Auction;
 import com.rahnema.model.Category;
 import com.rahnema.service.AuctionService;
+import com.rahnema.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class AuctionController {
 
     @Autowired
     private AuctionService auctionService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/create/{id}")
     @ResponseStatus(HttpStatus.CREATED)

@@ -2,8 +2,6 @@ package com.rahnema.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahnema.domain.UserDomain;
-import com.rahnema.domain.UserSignUpDomain;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,21 +29,6 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "auction_id")})
     @JsonIgnore
     private Set<Auction> bookmarkAuction;
-
-    public User(UserDomain userDomain) {
-        this.name = userDomain.getName() != null ? userDomain.getName() : "";
-        this.email = userDomain.getEmail() != null ? userDomain.getEmail() : "";
-        this.password = userDomain.getPassword() != null ? userDomain.getPassword() : "";
-        this.imageUrl = userDomain.getImageUrl() != null ? userDomain.getImageUrl() : "";
-        this.token = "";
-        this.recoveryLink = "";
-        this.createdAuction = null;
-    }
-
-    public User(UserSignUpDomain userInfoDomain) {
-        this.email = userInfoDomain.getEmail() != null ? userInfoDomain.getEmail() : "";
-        this.password = userInfoDomain.getPassword() != null ? userInfoDomain.getPassword() : "";
-    }
 
     public User() {
     }

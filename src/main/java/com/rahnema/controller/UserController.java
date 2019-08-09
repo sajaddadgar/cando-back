@@ -1,10 +1,12 @@
 package com.rahnema.controller;
 
-import com.rahnema.domain.UserDomain;
+import com.rahnema.domain.UserInfoDomain;
 import com.rahnema.domain.UserSignUpDomain;
+import com.rahnema.domain.UserUpdateDomain;
 import com.rahnema.exception.EmailAlreadyExistException;
 import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.User;
+import com.rahnema.service.UserDetailsServiceImpl;
 import com.rahnema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{id}")
-    public Optional<User> getOneUser(@PathVariable long id) {
-        return userService.getOneUser(id);
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    @GetMapping("/info")
+    public UserInfoDomain getOneUser() {
+        return new UserInfoDomain(userDetailsService.getUser());
     }
 
     private boolean isValid(UserSignUpDomain userSignUpDomain) {
@@ -39,17 +44,17 @@ public class UserController {
         return new UserSignUpDomain(user);
     }
 
-    @PutMapping("/update/{id}")
-    public String update(@RequestBody UserDomain userDomain, @PathVariable long id) {
-        User user = new User(userDomain);
-        userService.update(user, id);
+    @PutMapping("/update")
+    public String update(@RequestBody UserUpdateDomain userUpdateDomain) {
+        User user = UserUpdateDomain.generateUser(userUpdateDomain);
+        userService.update(user, userDetailsService.getUser().getId());
         return "a user changed";
     }
 
 
-    @DeleteMapping("/remove/{id}")
-    public String remove(@PathVariable long id){
-        userService.remove(id);
+    @DeleteMapping("/remove")
+    public String remove() {
+        userService.remove(userDetailsService.getUser().getId());
         return "a user removed";
     }
 
