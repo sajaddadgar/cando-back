@@ -36,6 +36,7 @@ public class Auction {
     @JoinColumn(name = "winner_id")
     private User winner;
     @ManyToMany(mappedBy = "bookmarkAuction")
+    // Todo: fix json ignore
     @JsonIgnore
     private Set<User> bookmarkUser;
 
@@ -69,6 +70,10 @@ public class Auction {
             bookmarkUser.remove(user);
             bookmarkedCount--;
         }
+    }
+
+    public void setBookmarkUser(Set<User> bookmarkUser) {
+        this.bookmarkUser = bookmarkUser;
     }
 
     public Auction(AuctionInfoDomain AuctionInfoDomain) {

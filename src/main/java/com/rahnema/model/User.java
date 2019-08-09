@@ -1,6 +1,5 @@
 package com.rahnema.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -19,11 +18,11 @@ public class User {
     private String imageUrl;
     private String token;
     private String recoveryLink;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "BOOKMARK",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "auction_id")})
+    // Todo: fix json ignore
     @JsonIgnore
     private Set<Auction> bookmarkAuction;
 

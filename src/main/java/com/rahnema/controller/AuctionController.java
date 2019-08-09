@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -86,8 +87,8 @@ public class AuctionController {
     }
 
     @GetMapping("/mybookmarked")
-    public List<Auction> getMyBookmarked(@PathVariable long userId) {
-        return auctionService.getMyBookmarked(userId);
+    public Set<Auction> getMyBookmarked() {
+        return auctionService.getMyBookmarked(userDetailsService.getUser().getId());
     }
 
 }

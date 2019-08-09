@@ -11,12 +11,10 @@ import com.rahnema.repository.AuctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AuctionService {
@@ -72,7 +70,6 @@ public class AuctionService {
     }
 
     public List<Auction> getMyAuctions(long userId) {
-        // TODO: 8/6/2019 : implement this method.
         List<Auction> auctions = (List<Auction>) auctionRepository.findAll();
         List<Auction> myAcution = new ArrayList<>();
         for (Auction auction : auctions) {
@@ -83,9 +80,11 @@ public class AuctionService {
         return myAcution;
     }
 
-    public List<Auction> getMyBookmarked(long userId) {
-        // TODO: 8/6/2019 : implement this method. 
-        return null;
+    public Set<Auction> getMyBookmarked(long userId) {
+        Optional<User> user = userService.getOneUser(userId);
+        if (!user.isPresent())
+            throw new UsernameNotFoundException("user not found.");
+        return user.get().getBookmarkAuction();
     }
 
     public void doBookmark(boolean bookmarked, long auctionId, long user) {
