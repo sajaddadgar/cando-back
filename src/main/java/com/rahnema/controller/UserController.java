@@ -2,6 +2,7 @@ package com.rahnema.controller;
 
 import com.rahnema.domain.UserDomain;
 import com.rahnema.domain.UserSignUpDomain;
+import com.rahnema.exception.EmailAlreadyExistException;
 import com.rahnema.exception.WrongArgumantException;
 import com.rahnema.model.User;
 import com.rahnema.service.UserService;
@@ -24,13 +25,16 @@ public class UserController {
         return userService.getOneUser(id);
     }
 
-    private boolean isValid(UserDomain userDomain) {
-        return userDomain.getEmail().contains("@") && !userDomain.getPassword().isEmpty();
+    private boolean isValid(UserSignUpDomain userSignUpDomain) {
+        return userSignUpDomain.getEmail().contains("@") && !userSignUpDomain.getPassword().isEmpty();
     }
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSignUpDomain addUser(@RequestBody UserSignUpDomain userSignUpDomain) {
+    public UserSignUpDomain addUser(@RequestBody UserSignUpDomain userSignUpDomain) throws EmailAlreadyExistException {
+        if (!isValid(userSignUpDomain)) {
+            throw new WrongArgumantException("email or password not valid");
+        }
         User user = userService.addUser(userSignUpDomain);
         return new UserSignUpDomain(user);
     }
@@ -80,6 +84,7 @@ public class UserController {
 
         return new ModelAndView("complete.html");
     }
+
 }
 
 

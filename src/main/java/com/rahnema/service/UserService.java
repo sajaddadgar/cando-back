@@ -1,6 +1,7 @@
 package com.rahnema.service;
 
 import com.rahnema.domain.UserSignUpDomain;
+import com.rahnema.exception.EmailAlreadyExistException;
 import com.rahnema.model.User;
 import com.rahnema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,10 +40,24 @@ public class UserService {
         return user;
     }
 
-    public User addUser(UserSignUpDomain userInfoDomain) {
+    private boolean emailValidation(String email) {
+        List<User> userList = (List<User>) userRepository.findAll();
+        for (User user : userList) {
+            if (email.equals(user.getEmail())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public User addUser(UserSignUpDomain userInfoDomain) throws EmailAlreadyExistException {
         User user = new User(userInfoDomain);
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (emailValidation(user.getEmail())) {
+            user.setPassword(encoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else {
+            throw new EmailAlreadyExistException("email already exist");
+        }
         return user;
     }
 
