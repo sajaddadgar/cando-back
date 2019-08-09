@@ -69,10 +69,10 @@ public class UserService {
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isPresent()){
             User preUser = dbUser.get();
-            preUser.setName(!user.getName().isEmpty() ? user.getName() : preUser.getName());
-            preUser.setEmail(!user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
-            preUser.setPassword(!user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
-            preUser.setImageUrl(!user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
+            preUser.setName(user.getName() != null && !user.getName().isEmpty() ? user.getName() : preUser.getName());
+            preUser.setEmail(user.getEmail() != null && !user.getEmail().isEmpty() ? user.getEmail() : preUser.getEmail());
+            preUser.setPassword(user.getPassword() != null && !user.getPassword().isEmpty() ? user.getPassword() : preUser.getPassword());
+            preUser.setImageUrl(user.getImageUrl() != null && !user.getImageUrl().isEmpty() ? user.getImageUrl() : preUser.getImageUrl());
         }
 
         userRepository.save(dbUser.get());
