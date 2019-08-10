@@ -65,9 +65,9 @@ public class AuctionService {
 
         page.forEach(auction -> {
             if (user.getBookmarkAuction().contains(auction))
-                auction.setBoookmarked(true);
+                auction.setBookmarked(true);
             else
-                auction.setBoookmarked(false);
+                auction.setBookmarked(false);
         });
         return page;
     }

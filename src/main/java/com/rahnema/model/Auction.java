@@ -31,7 +31,7 @@ public class Auction {
     private User creator;
     private int activeUserCount;
     private boolean started;
-    private boolean boookmarked;
+    private boolean bookmarked;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")
     private User winner;
@@ -215,11 +215,11 @@ public class Auction {
         this.creator = creator;
     }
 
-    public boolean isBoookmarked() {
-        return boookmarked;
+    public boolean isBookmarked() {
+        return bookmarked;
     }
 
-    public void setBoookmarked(boolean boookmarked) {
-        this.boookmarked = boookmarked;
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
     }
 }
