@@ -15,7 +15,8 @@ import java.util.function.Function;
 @Component
 public class JwtTokenImpl implements JwtToken {
 
-    private static final long TOKEN_VALIDITY_TIME = 2 * 60 * 60;
+    // Todo: change token validty time
+    private static final long TOKEN_VALIDITY_TIME = Integer.MAX_VALUE;
     private static final long serialVersionUID = -2550185165626007488L;
 
     @Value("${jwt.secret}")
