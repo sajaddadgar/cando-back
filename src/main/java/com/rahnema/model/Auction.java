@@ -28,7 +28,7 @@ public class Auction {
     private Category category;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "creator_id")
-    private User creator;
+    private transient User creator;
     private int activeUserCount;
     private boolean started;
     private boolean boookmarked;
@@ -37,8 +37,9 @@ public class Auction {
     private User winner;
     @ManyToMany(mappedBy = "bookmarkAuction")
     // Todo: fix json ignore
+
     @JsonIgnore
-    private Set<User> bookmarkUser;
+    private transient Set<User> bookmarkUser;
 
     public Auction(AuctionDomain auctionDomain) {
         this.title = auctionDomain.getTitle();
