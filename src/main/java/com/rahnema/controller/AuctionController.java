@@ -77,8 +77,9 @@ public class AuctionController {
     }
 
     @GetMapping("/myauctions")
-    public List<Auction> getMyAuctions() {
-        return auctionService.getMyAuctions(userDetailsService.getUser().getId());
+    public Set<AuctionDomain> getMyAuctions() {
+        List<Auction> myAuctions = auctionService.getMyAuctions(userDetailsService.getUser().getId());
+        return myAuctions.stream().map(AuctionDomain::new).collect(Collectors.toSet());
     }
 
     private boolean isValid(HomepageDomain homepageDomain) {
@@ -87,8 +88,9 @@ public class AuctionController {
     }
 
     @GetMapping("/mybookmarked")
-    public Set<Auction> getMyBookmarked() {
-        return auctionService.getMyBookmarked(userDetailsService.getUser().getId());
+    public Set<AuctionDomain> getMyBookmarked() {
+        Set<Auction> myBookmarked = auctionService.getMyBookmarked(userDetailsService.getUser().getId());
+        return myBookmarked.stream().map(AuctionDomain::new).collect(Collectors.toSet());
     }
 
 }
