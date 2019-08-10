@@ -24,10 +24,10 @@ public class Auction {
     private Category category;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "creator_id")
-    private transient User creator;
+    private User creator;
     private int activeUserCount;
     private boolean started;
-    private boolean boookmarked;
+    private boolean bookmarked;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")
     private User winner;
@@ -35,7 +35,7 @@ public class Auction {
     // Todo: fix json ignore
 
     @JsonIgnore
-    private transient Set<User> bookmarkUser;
+    private Set<User> bookmarkUser;
 
     public void addBookmarkUser(User user) {
         if (!bookmarkUser.contains(user)) {
@@ -198,12 +198,12 @@ public class Auction {
         return this;
     }
 
-    public boolean isBoookmarked() {
-        return boookmarked;
+    public boolean isBookmarked() {
+        return bookmarked;
     }
 
-    public Auction setBoookmarked(boolean boookmarked) {
-        this.boookmarked = boookmarked;
+    public Auction setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
         return this;
     }
 }
