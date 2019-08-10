@@ -1,10 +1,12 @@
 package com.rahnema.domain;
 
 import com.rahnema.model.Auction;
+import com.rahnema.model.Category;
 
 import java.util.Date;
+import java.util.Optional;
 
-public class AuctionInfoDomain {
+public class AuctionInfoDomain implements IDomain<Auction> {
 
     transient Auction auction;
     String title;
@@ -26,6 +28,25 @@ public class AuctionInfoDomain {
         this.maxUsers = auction.getMaxUsers();
         this.imageUrl = auction.getImageUrl();
         this.remainedTime = auction.getDueDate() - new Date().getTime();
+    }
+
+    @Override
+    public boolean isValid() {
+        return !title.isEmpty() &&
+                maxUsers > 0;
+    }
+
+    @Override
+    public Auction generate() {
+        Optional<Category> optionalCategory = Category.ALL.getCategories().stream().filter(category -> category.getId() == this.categoryId).findFirst();
+        Category category = optionalCategory.orElse(Category.ALL);
+        return new Auction()
+                .setTitle(this.title)
+                .setDescription(this.description)
+                .setCategory(category)
+                .setImageUrl(this.imageUrl)
+                .setDueDate(this.dueDate)
+                .setMaxUsers(this.maxUsers);
     }
 
     public String getImageUrl() {
@@ -91,4 +112,5 @@ public class AuctionInfoDomain {
     public void setMaxUsers(int maxUsers) {
         this.maxUsers = maxUsers;
     }
+
 }

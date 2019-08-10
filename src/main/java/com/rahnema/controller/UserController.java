@@ -46,7 +46,7 @@ public class UserController {
 
     @PutMapping("/update")
     public String update(@RequestBody UserUpdateDomain userUpdateDomain) {
-        User user = UserUpdateDomain.generateUser(userUpdateDomain);
+        User user = userUpdateDomain.generate();
         userService.update(user, userDetailsService.getUser().getId());
         return "a user changed";
     }

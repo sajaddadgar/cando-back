@@ -11,9 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,32 +25,24 @@ public class AuctionController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+
+    private boolean isValid(HomepageDomain homepageDomain) {
+        return homepageDomain.getCount() > 0 &&
+                homepageDomain.getPage() >= 0;
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public AuctionDomain addAuction(@RequestBody AuctionDomain auctionDomain) {
-        //Todo: change this strong validation method :)
-        if (isValid(auctionDomain) || !isValid(auctionDomain)) {
+        if (auctionDomain.isValid()) {
             Auction auction = auctionService.addAuction(auctionDomain, userDetailsService.getUser().getId());
             return new AuctionDomain(auction);
         } else throw new WrongArgumantException("Arguments are not valid!");
     }
 
-    private boolean isValid(AuctionDomain auctionDomain) {
-        return !auctionDomain.getTitle().isEmpty() &&
-                auctionDomain.getBasePrice() > 0 &&
-                new Date().getTime() < auctionDomain.getDueDate() &&
-                Category.ALL.getCategories().stream().anyMatch(category -> auctionDomain.getCategoryId() == category.getId()) &&
-                auctionDomain.getMaxUsers() >= 0;
-    }
-
     @GetMapping("/info/{id}")
     public AuctionInfoDomain getAuctionInfo(@PathVariable long id) {
         return auctionService.getAuctionInfo(id);
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Auction> getOneAuction(@PathVariable long id) {
-        return auctionService.getAuction(id);
     }
 
     @GetMapping("/categories")
@@ -73,17 +63,12 @@ public class AuctionController {
             Page<AuctionDomain> map = homepageAuctions.map(AuctionDomain::new);
             return map.get().collect(Collectors.toList());
         }
-        throw new IllegalArgumentException("Arguments are invalid!");
+        throw new WrongArgumantException("homepage is not valid");
     }
 
     @GetMapping("/myauctions")
     public List<Auction> getMyAuctions() {
         return auctionService.getMyAuctions(userDetailsService.getUser().getId());
-    }
-
-    private boolean isValid(HomepageDomain homepageDomain) {
-        return homepageDomain.getCount() > 0 &&
-                homepageDomain.getPage() >= 0;
     }
 
     @GetMapping("/mybookmarked")

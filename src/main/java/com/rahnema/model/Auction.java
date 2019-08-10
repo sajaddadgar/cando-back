@@ -1,12 +1,8 @@
 package com.rahnema.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rahnema.domain.AuctionDomain;
-import com.rahnema.domain.AuctionInfoDomain;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -41,24 +37,6 @@ public class Auction {
     @JsonIgnore
     private transient Set<User> bookmarkUser;
 
-    public Auction(AuctionDomain auctionDomain) {
-        this.title = auctionDomain.getTitle();
-        this.basePrice = auctionDomain.getBasePrice();
-        this.description = auctionDomain.getDescription();
-        this.activeUserCount = 0;
-        this.createDate = new Date().getTime();
-        this.imageUrl = auctionDomain.getImageUrl();
-        this.soldPrice = -1;
-        this.bookmarkedCount = 0;
-        Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
-                .filter(category1 -> category1.getId() == auctionDomain.getCategoryId()).findFirst();
-        this.category = first.orElse(Category.ALL);
-        this.started = false;
-        this.dueDate = auctionDomain.getDueDate();
-        this.maxUsers = auctionDomain.getMaxUsers();
-        this.winner = null;
-    }
-
     public void addBookmarkUser(User user) {
         if (!bookmarkUser.contains(user)) {
             bookmarkUser.add(user);
@@ -73,19 +51,9 @@ public class Auction {
         }
     }
 
-    public void setBookmarkUser(Set<User> bookmarkUser) {
+    public Auction setBookmarkUser(Set<User> bookmarkUser) {
         this.bookmarkUser = bookmarkUser;
-    }
-
-    public Auction(AuctionInfoDomain AuctionInfoDomain) {
-        this.title = AuctionInfoDomain.getTitle();
-        this.description = AuctionInfoDomain.getDescription();
-        this.imageUrl = AuctionInfoDomain.getImageUrl();
-        Optional<Category> first = Category.DIGITAL_GOODS.getCategories().stream()
-                .filter(category1 -> category1.getId() == AuctionInfoDomain.getCategoryId()).findFirst();
-        this.category = first.orElse(Category.ALL);
-        this.dueDate = AuctionInfoDomain.getDueDate();
-        this.maxUsers = AuctionInfoDomain.getMaxUsers();
+        return this;
     }
 
     public Auction() {
@@ -99,127 +67,143 @@ public class Auction {
         return started;
     }
 
-    public void setStarted(boolean started) {
+    public Auction setStarted(boolean started) {
         this.started = started;
+        return this;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public Auction setId(long id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public Auction setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Auction setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public long getBasePrice() {
         return basePrice;
     }
 
-    public void setBasePrice(long basePrice) {
+    public Auction setBasePrice(long basePrice) {
         this.basePrice = basePrice;
+        return this;
     }
 
     public long getSoldPrice() {
         return soldPrice;
     }
 
-    public void setSoldPrice(long soldPrice) {
+    public Auction setSoldPrice(long soldPrice) {
         this.soldPrice = soldPrice;
+        return this;
     }
 
     public long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(long createDate) {
+    public Auction setCreateDate(long createDate) {
         this.createDate = createDate;
+        return this;
     }
 
     public long getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(long dueDate) {
+    public Auction setDueDate(long dueDate) {
         this.dueDate = dueDate;
+        return this;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public Auction setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
     }
 
     public int getBookmarkedCount() {
         return bookmarkedCount;
     }
 
-    public void setBookmarkedCount(int bookmarkedCount) {
+    public Auction setBookmarkedCount(int bookmarkedCount) {
         this.bookmarkedCount = bookmarkedCount;
+        return this;
     }
 
     public int getMaxUsers() {
         return maxUsers;
     }
 
-    public void setMaxUsers(int maxUsers) {
+    public Auction setMaxUsers(int maxUsers) {
         this.maxUsers = maxUsers;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public Auction setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
     public int getActiveUserCount() {
         return activeUserCount;
     }
 
-    public void setActiveUserCount(int activeUserCount) {
+    public Auction setActiveUserCount(int activeUserCount) {
         this.activeUserCount = activeUserCount;
+        return this;
     }
 
     public User getWinner() {
         return winner;
     }
 
-    public void setWinner(User winner) {
+    public Auction setWinner(User winner) {
         this.winner = winner;
+        return this;
     }
 
     public User getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public Auction setCreator(User creator) {
         this.creator = creator;
+        return this;
     }
 
     public boolean isBoookmarked() {
         return boookmarked;
     }
 
-    public void setBoookmarked(boolean boookmarked) {
+    public Auction setBoookmarked(boolean boookmarked) {
         this.boookmarked = boookmarked;
+        return this;
     }
 }

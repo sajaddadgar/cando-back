@@ -2,7 +2,7 @@ package com.rahnema.domain;
 
 import com.rahnema.model.User;
 
-public class UserDomain {
+public class UserDomain implements IDomain<User> {
 
     transient User user;
     String name;
@@ -18,6 +18,22 @@ public class UserDomain {
         this.password = user.getPassword();
         this.imageUrl = user.getImageUrl();
         this.recoveryLink = user.getRecoveryLink();
+    }
+
+    @Override
+    public boolean isValid() {
+        return email.contains("@") &&
+                !password.isEmpty();
+    }
+
+    @Override
+    public User generate() {
+        return new User()
+                .setName(this.name)
+                .setEmail(this.email)
+                .setRecoveryLink(this.recoveryLink)
+                .setImageUrl(this.imageUrl)
+                .setPassword(this.password);
     }
 
     public String getName() {
@@ -59,4 +75,5 @@ public class UserDomain {
     public void setRecoveryLink(String recoveryLink) {
         this.recoveryLink = recoveryLink;
     }
+
 }

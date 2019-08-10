@@ -41,63 +41,71 @@ public class User {
         return id;
     }
 
-    public void setId(long id) {
+    public User setId(long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public User setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public User setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public User setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
     }
 
     public String getRecoveryLink() {
         return recoveryLink;
     }
 
-    public void setRecoveryLink(String recoveryLink) {
+    public User setRecoveryLink(String recoveryLink) {
         this.recoveryLink = recoveryLink;
+        return this;
     }
 
     public String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public User setToken(String token) {
         this.token = token;
+        return this;
     }
 
     public Set<Auction> getBookmarkAuction() {
         return bookmarkAuction;
     }
 
-    public void setBookmarkAuction(Set<Auction> bookmarkAuction) {
+    public User setBookmarkAuction(Set<Auction> bookmarkAuction) {
         this.bookmarkAuction = bookmarkAuction;
+        return this;
     }
 }

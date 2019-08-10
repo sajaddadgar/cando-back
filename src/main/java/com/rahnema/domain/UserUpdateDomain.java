@@ -2,7 +2,7 @@ package com.rahnema.domain;
 
 import com.rahnema.model.User;
 
-public class UserUpdateDomain {
+public class UserUpdateDomain implements IDomain<User> {
 
     transient User user;
     String name;
@@ -22,15 +22,22 @@ public class UserUpdateDomain {
         this.recoveryLink = user.getRecoveryLink();
     }
 
-    public static User generateUser(UserUpdateDomain userUpdateDomain) {
-        User user = new User();
-        user.setEmail(userUpdateDomain.email != null ? userUpdateDomain.email : "");
-        user.setImageUrl(userUpdateDomain.imageUrl != null ? userUpdateDomain.imageUrl : "");
-        user.setName(userUpdateDomain.name != null ? userUpdateDomain.name : "");
-        user.setPassword(userUpdateDomain.password != null ? userUpdateDomain.password : "");
-        user.setToken(userUpdateDomain.token != null ? userUpdateDomain.token : "");
-        user.setRecoveryLink(userUpdateDomain.recoveryLink != null ? userUpdateDomain.recoveryLink : "");
-        return user;
+    @Override
+    public boolean isValid() {
+        return !name.isEmpty() &&
+                email.contains("@") &&
+                !password.isEmpty();
+    }
+
+    @Override
+    public User generate() {
+        return new User()
+                .setEmail(this.email != null ? this.email : "")
+                .setImageUrl(this.imageUrl != null ? this.imageUrl : "")
+                .setName(this.name != null ? this.name : "")
+                .setPassword(this.password != null ? this.password : "")
+                .setToken(this.token != null ? this.token : "")
+                .setRecoveryLink(this.recoveryLink != null ? this.recoveryLink : "");
     }
 
     public String getName() {
@@ -71,10 +78,6 @@ public class UserUpdateDomain {
 
     public void setRecoveryLink(String recoveryLink) {
         this.recoveryLink = recoveryLink;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public void setUser(User user) {

@@ -36,7 +36,7 @@ public class AuctionService {
     }
 
     public Auction addAuction(AuctionDomain auctionDomain, long id) {
-        Auction auction = new Auction(auctionDomain);
+        Auction auction = auctionDomain.generate();
         Optional<User> user = userService.getOneUser(id);
         auctionRepository.save(auction);
         auction.setCreator(user.get());
