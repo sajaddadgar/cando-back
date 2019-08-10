@@ -1,10 +1,9 @@
 package com.rahnema.model;
 
-
-import com.rahnema.domain.UserDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -17,21 +16,25 @@ public class User {
     private String email;
     private String password;
     private String imageUrl;
+    private String token;
     private String recoveryLink;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "creator_id")
-    private List<Auction> createdAuction;
-
-    public User(UserDomain userDomain) {
-        this.name = userDomain.getName() != null ? userDomain.getName() : "";
-        this.email = userDomain.getEmail() != null ? userDomain.getEmail() : "";
-        this.password = userDomain.getPassword() != null ? userDomain.getPassword() : "";
-        this.imageUrl = userDomain.getImageUrl() != null ? userDomain.getImageUrl() : "";
-        this.recoveryLink = "";
-        this.createdAuction = null;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "BOOKMARK",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "auction_id")})
+    // Todo: fix json ignore
+    @JsonIgnore
+    private Set<Auction> bookmarkAuction;
 
     public User() {
+    }
+
+    public void addBookmarkedAuction(Auction auction) {
+        bookmarkAuction.add(auction);
+    }
+
+    public void removeBookmarkedAuction(Auction auction) {
+        bookmarkAuction.remove(auction);
     }
 
     public long getId() {
@@ -82,11 +85,19 @@ public class User {
         this.recoveryLink = recoveryLink;
     }
 
-    public List<Auction> getCreatedAuction() {
-        return createdAuction;
+    public String getToken() {
+        return token;
     }
 
-    public void setCreatedAuction(List<Auction> createdAuction) {
-        this.createdAuction = createdAuction;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Set<Auction> getBookmarkAuction() {
+        return bookmarkAuction;
+    }
+
+    public void setBookmarkAuction(Set<Auction> bookmarkAuction) {
+        this.bookmarkAuction = bookmarkAuction;
     }
 }

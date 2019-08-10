@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recover Password</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="img/Cando.png" rel="icon" sizes="16x16" type="image/gif">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Mysterons BRK";
+            background-image: url("/img/Untitle5d-1.jpg") #c4cbcb;
+        }
+
+        .box {
+            box-shadow: black;
+            border-radius: 50px;
+            width: 300px;
+            padding: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            text-align: center;
+        }
+
+        .box h1 {
+            color: white;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .box input[type = 'password'] {
+            border: 2px solid #e05c1b;
+            background: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            padding: 14px 10px;
+            width: 200px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+        }
+
+        .box input[type = 'password']:focus {
+            width: 280px;
+            border-color: #e0c727;
+
+        }
+
+        .box input[type = 'submit'] {
+            border: 2px solid #e0c727;
+            background: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            padding: 14px 40px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .box input[type = 'submit']:hover {
+            background: #e0c727;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="middle">
+        <h1>cando</h1>
+    </div>
+    <div class="main-block">
+
+        <form action="/user/changepassword" class="box" method="post">
+            <h1>بازیابی رمز عبور</h1>
+            <input hidden name="id" th:value="${id}" type="text"/>
+            <input id="pass" name="pass" placeholder="رمز عبور جدید" required type="password"/>
+            <input id="pass2" name="pass2" placeholder="تکرار رمز عبور جدید" required type="password"/>
+            <input type="submit" value="تغییر رمز"/>
+
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>

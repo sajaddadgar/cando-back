@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-size: cover;
+    background-image: url("../img/Untitle5d-1.jpg");
+}
+
+.middle {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.middle h1 {
+    font-size: 100px;
+    text-transform: uppercase;
+    margin-top: -300px;
+    color: #2c3e50;
+    background-image: url(../img/water-transparent-animation-3.jpg);
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 100% 100%;
+    animation: water 15s infinite;
+}
+
+@keyframes water {
+    from {
+        background-position: left 0 top 0;
+    }
+    to {
+        background-position: left 1000px top 0;
+    }
+}

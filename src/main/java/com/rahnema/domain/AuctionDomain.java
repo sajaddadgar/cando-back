@@ -35,7 +35,7 @@ public class AuctionDomain {
         this.remainedUsers = this.maxUsers - auction.getActiveUserCount();
         this.remainedTime = auction.getDueDate() - new Date().getTime();
         this.enabled = auction.getMaxUsers() > auction.getActiveUserCount();
-        this.bookmarked = false;
+        this.bookmarked = auction.isBoookmarked();
         this.started = auction.getDueDate() < new Date().getTime();
     }
 

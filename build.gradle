@@ -32,7 +32,8 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-hateoas'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'mysql:mysql-connector-java'
-    compile group: 'javax.mail', name: 'mail', version: '1.4'
-
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'io.jsonwebtoken:jjwt:0.9.1'
 }
 

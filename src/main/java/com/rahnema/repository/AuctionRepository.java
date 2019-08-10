@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuctionRepository extends PagingAndSortingRepository<Auction, Long> {
 
-    Page<Auction> findByTitleAndCategory(String title, Category category, Pageable pageable);
+    Page<Auction> findByTitleStartsWithAndCategory(String title, Category category, Pageable pageable);
+
+    Page<Auction> findByTitleStartsWith(String title, Pageable pageable);
 
     Page<Auction> findByCategory(Category category, Pageable pageable);
 }

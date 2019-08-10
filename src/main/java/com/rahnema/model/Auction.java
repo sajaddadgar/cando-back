@@ -1,11 +1,13 @@
 package com.rahnema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rahnema.domain.AuctionDomain;
 import com.rahnema.domain.AuctionInfoDomain;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Auction {
@@ -24,11 +26,20 @@ public class Auction {
     private int bookmarkedCount;
     private int maxUsers;
     private Category category;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creator_id")
+    private transient User creator;
     private int activeUserCount;
     private boolean started;
+    private boolean boookmarked;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")
     private User winner;
+    @ManyToMany(mappedBy = "bookmarkAuction")
+    // Todo: fix json ignore
+
+    @JsonIgnore
+    private transient Set<User> bookmarkUser;
 
     public Auction(AuctionDomain auctionDomain) {
         this.title = auctionDomain.getTitle();
@@ -48,6 +59,24 @@ public class Auction {
         this.winner = null;
     }
 
+    public void addBookmarkUser(User user) {
+        if (!bookmarkUser.contains(user)) {
+            bookmarkUser.add(user);
+            bookmarkedCount++;
+        }
+    }
+
+    public void removeBookmarkUser(User user) {
+        if (bookmarkUser.contains(user)) {
+            bookmarkUser.remove(user);
+            bookmarkedCount--;
+        }
+    }
+
+    public void setBookmarkUser(Set<User> bookmarkUser) {
+        this.bookmarkUser = bookmarkUser;
+    }
+
     public Auction(AuctionInfoDomain AuctionInfoDomain) {
         this.title = AuctionInfoDomain.getTitle();
         this.description = AuctionInfoDomain.getDescription();
@@ -60,6 +89,10 @@ public class Auction {
     }
 
     public Auction() {
+    }
+
+    public Set<User> getBookmarkUser() {
+        return bookmarkUser;
     }
 
     public boolean isStarted() {
@@ -172,5 +205,21 @@ public class Auction {
 
     public void setWinner(User winner) {
         this.winner = winner;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public boolean isBoookmarked() {
+        return boookmarked;
+    }
+
+    public void setBoookmarked(boolean boookmarked) {
+        this.boookmarked = boookmarked;
     }
 }
