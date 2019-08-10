@@ -3,7 +3,7 @@ body {
     padding: 0;
     font-family: sans-serif;
     background-size: cover;
-    background-image: url("../img/Untitle5d-1.jpg");
+    background-image: url("Untitle5d-1.jpg");
 }
 
 .middle {
@@ -19,7 +19,7 @@ body {
     text-transform: uppercase;
     margin-top: -300px;
     color: #2c3e50;
-    background-image: url(../img/water-transparent-animation-3.jpg);
+    background-image: url(water-transparent-animation-3.jpg);
     -webkit-background-clip: text;
     color: transparent;
     background-size: 100% 100%;

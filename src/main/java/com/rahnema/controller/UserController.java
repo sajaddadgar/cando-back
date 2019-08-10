@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -58,7 +60,7 @@ public class UserController {
     }
 
     @PostMapping("/recover/{email}")
-    public boolean recoverPassword(@PathVariable String email) {
+    public boolean recoverPassword(@PathVariable String email) throws IOException, MessagingException {
         userService.findByEmail(email);
         return true;
     }

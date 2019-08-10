@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AuctionRepository extends PagingAndSortingRepository<Auction, Long> {
 
@@ -15,4 +17,6 @@ public interface AuctionRepository extends PagingAndSortingRepository<Auction, L
     Page<Auction> findByTitleStartsWith(String title, Pageable pageable);
 
     Page<Auction> findByCategory(Category category, Pageable pageable);
+
+    List<Auction> getAllByCreatorId(long id);
 }

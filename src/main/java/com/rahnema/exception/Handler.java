@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+
 @ControllerAdvice
 public class Handler extends ResponseEntityExceptionHandler {
 
@@ -65,6 +68,19 @@ public class Handler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public final ResponseEntity<Error> userNotFound(Exception ex) {
         Error errorMessage = (new Error(ex.getMessage(), 8640212));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public final ResponseEntity<Error> io(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 6540321));
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(MessagingException.class)
+    public final ResponseEntity<Error> message(Exception ex) {
+        Error errorMessage = (new Error(ex.getMessage(), 4235689));
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 

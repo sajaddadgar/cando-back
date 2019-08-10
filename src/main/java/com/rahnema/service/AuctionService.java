@@ -14,7 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuctionService {
@@ -62,22 +65,15 @@ public class AuctionService {
 
         page.forEach(auction -> {
             if (user.getBookmarkAuction().contains(auction))
-                auction.setBoookmarked(true);
+                auction.setBookmarked(true);
             else
-                auction.setBoookmarked(false);
+                auction.setBookmarked(false);
         });
         return page;
     }
 
     public List<Auction> getMyAuctions(long userId) {
-        List<Auction> auctions = (List<Auction>) auctionRepository.findAll();
-        List<Auction> myAcution = new ArrayList<>();
-        for (Auction auction : auctions) {
-            if (auction.getCreator().getId() == userId) {
-                myAcution.add(auction);
-            }
-        }
-        return myAcution;
+        return auctionRepository.getAllByCreatorId(userId);
     }
 
     public Set<Auction> getMyBookmarked(long userId) {
