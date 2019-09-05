@@ -5,7 +5,7 @@
 ### Create User
 To create a new user, do `POST` on this URL:
 
-`/user/create/`
+`/user/create`
 
 body of this request must contain these props:
 
@@ -43,7 +43,7 @@ Header: `Authorization: Bearer TOKEN`
 ### Update User
 In order to update user, do `PUT` on this url:
 
-`/user/update/`
+`/user/update`
 
 body of this request must contain this props in JSON:
 
@@ -58,7 +58,7 @@ body of this request must contain this props in JSON:
 
 To get the user info, do `GET` on this URL:
 
-`/user/info/`
+`/user/info`
 
 body of the response would contain these fields in JSON:
 1. name
@@ -71,7 +71,7 @@ body of the response would contain these fields in JSON:
 ### Create new auction 
 To create new Auction for a user, do `POST` on this URL:
 
-`/auction/create/`
+`/auction/create`
 
 body of this request must contain these props:
 
@@ -106,7 +106,7 @@ the response body will contain these fields in JSON:
 
 To get static categories, do `GET` on this URL:
 
-`/auction/categories/`
+`/auction/categories`
 
 the response body will contain an array of categories in JSON, each category will have an id and title.
 
@@ -114,7 +114,7 @@ the response body will contain an array of categories in JSON, each category wil
 
 To get homepage cards, do `POST` on this URL:
 
-`/auction/homepage/`
+`/auction/homepage`
 
 body of this request must contain this props in JSON:
 
@@ -162,17 +162,25 @@ the response body will contain an array of auction cards, each auction card woul
 
 To get all user-created auctions, do `GET` on this URL:
 
-`/auction/myauctions/`
+`/auction/myauctions`
 
 To get  user bookmarked auction, do `GET` on this URL:
 
-`/auction/mybookmarked/`
+`/auction/mybookmarked`
+
+### Bookmark an auction
+
+To bookmark and auction, do `POST` on this URL:
+
+`/auction/bookamark/{id}`
+
+`{id}` is the auction id. 
 
 ## Image API
 ### Upload new avatar
 To upload a new avatar, do `POST` on this URL:
 
-`image/upload/avatar/`
+`image/upload/avatar`
 
 Afterward, the image new name would be returned in the response in JSON. 
 **To change the user's avatar, the client must send an update request to the server and change the ImageUrl field to the new name**
@@ -184,10 +192,10 @@ To download the avatar, do `GET` on this URL:
 
 `{name}` must be a file name with its format. 
 
-### Uplaod new auction banner
+### Upload new auction banner
 To upload a new auction banner, do `POST` on this URL:
 
-`image/upload/banner/`
+`image/upload/banner`
 
 Afterward, the image new name would be returned in the response in JSON. 
 **To change the auction banner, the client must send an update request to the server and change the ImageUrl field to the new name**
@@ -199,3 +207,113 @@ To download the banner, do `GET` on this URL:
 
 `{name}` must be a file name with its format.
 
+
+## Exceptions
+Each error would be returned in JSON, the body would contain these props:
+
+1. detail
+2. code
+3. stackTrace
+4. suppressedExceptions
+
+meanwhile, a unique customized HTML status code will be returned in HTML header.
+
+### Html error codes interpretation
+
+|Html error code | Name | interpretation | 
+| :---:         | :---:    |  :---:    | 
+| 400     | WrongArgumantException  | bad argument sent to server
+| 409       | EmailAlreadyExistException   | a user with email exists on database
+| 412       | ValidationException   | signup email not confirmed
+| 404       | FileNotExistException   | requested file not exists on server
+| 403       | DisabledException   | requested token for authentication is disabled
+| 406       | BadCredentialsException   | credentials params are not proper
+| 401       | ExpiredJwtException   | user's token is expired
+| 404       | UsernameNotFoundException   | email not found in database
+| 503       | MessagingException   | an error occured while sending email
+
+
+## Websocket 
+The auction's running would be cast on Websockets LIVE, to achieve this goal, you must do the following requests.
+
+### Connect to websocket 
+
+do `CONNECT` on `/websocket`, Header's token must not be forgotten and also put your exact token without Bearer prefix on the `PASSCODE`; the Stomp's request would be in this way:
+
+```javascript
+function connect() {
+    var socket = new SockJS('/websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, "TOKEN",  function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+    });
+}
+```
+
+### Subscribe on Auction State
+
+do `SUBSCRIBE` on `/topic/state/{id}` to get the auction's state realtime, after subscribe and within each change that is made on auction, a new Message should be received by the client,
+props of message are these field in JSON. 
+
+1. auctionId
+2. started
+3. activeUserCount
+4. finished
+5. full
+
+> if "finished" field becomes true, other fields except auctionId will become invalid.
+
+> "full" and "activeUserCount" fields are only valid when an auction is running.
+
+
+```javascript
+function subscribe() {
+    stompClient.subscribe('/topic/state/{id}', function (auctionState) {
+        showAuctionState(auctionState);
+    });
+}
+```
+
+### Subscribe on Auction Run
+
+do `SUBSCRIBE` on `/topic/auction/{id}` to be one of the bidders in the auction, to overcome race conditions an error message would be returned if Auction capacity becomes full before the subscription
+after subscription, on each new bid and second, a new message would be sent to the client on the `/user/queue/reply`, the client must listen and subscribe on this URL too, this message would have this props in JSON.
+
+1. remainedSeconds
+2. maxBid
+3. activeUserCount
+4. finished
+
+each bid greater than last max bid would be replaced before auction end, although remainedSeconds would be returned to default countdown time (30 seconds).
+
+```javascript
+function subscribe() {
+    stompClient.subscribe('/topic/auction/{id}');
+
+    stompClient.subscribe('/user/queue/reply', function (auctionStatus) {
+        showAuctionStatus(JSON.parse(auctionStatus.body).maxBid , JSON.parse(auctionStatus.body).activeUserCount);
+    });
+```
+
+
+### Bid
+To bid, do `SEND` on the `/app/bid/{id}` with JSON as a message with this property. 
+
+1. bid
+
+```javascript
+function sendBid() {
+    stompClient.send("/app/bid/{id}", {}, JSON.stringify({'bid': $("#bid").val()}));
+}
+```
+
+### Unsubscribe from Auction 
+
+do `UNSUBSCRIBE` on the `/topic/auction/{id}` to leave the auction, **Note that any accidental or intentional leaving without unsubscription might have side effects.**
+
+```javascript
+function unsubscribe() {
+    stompClient.unsubscribe('/topic/auction/2');
+}
+```
