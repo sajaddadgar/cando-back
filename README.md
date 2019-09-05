@@ -1,5 +1,5 @@
 # Cando backend 
-![cando_ultra_compressed](/uploads/e854683c72a7ebac8784aeea0ccbfa0c/cando_ultra_compressed.jpg)
+![Cando](https://user-images.githubusercontent.com/47991444/64355191-039d2900-d016-11e9-8e24-beff5b537275.jpg)
 ## User API
 
 ### Create User
